@@ -16,7 +16,7 @@ export class CreateUserReqDto {
         description: 'User name',
     })
     @MaxLength(60)
-    @MinLength(5)
+    @MinLength(3)
     @IsString()
     readonly name: string;
 }
