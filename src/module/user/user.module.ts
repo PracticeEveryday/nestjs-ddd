@@ -5,7 +5,7 @@ import { DatabaseModule } from '🔥/database/database.module';
 import { InjectionToken } from '🔥/database/injection.token';
 
 import { CreateUserCommand } from './commands/create-user/create-user.command';
-import { CreateUserHandler } from './commands/create-user/create-user.handler';
+import { CreateUserService } from './commands/create-user/create-user.service';
 import { CreateUserHttpController } from './commands/create-user/create-user.http.controller';
 import { UserEntity } from './infrastructure/entity/user.entity';
 import { UserInjectionToken } from './infrastructure/repository/injectionToken';
@@ -22,7 +22,7 @@ const provider = [
     },
 ];
 
-const command = [CreateUserHandler, CreateUserCommand];
+const command = [CreateUserService, CreateUserCommand];
 
 @Module({
     imports: [CqrsModule, DatabaseModule],

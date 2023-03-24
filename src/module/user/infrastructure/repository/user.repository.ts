@@ -23,7 +23,11 @@ export class UserRepositoryImpl implements UserRepositoryPort {
         return newUser;
     };
 
-    public findOneById = async (userId: number) => {
+    public findOneById = async (userId: number): Promise<UserEntity | null> => {
         return await this.userRepository.findOne({ where: { userId } });
+    };
+
+    public findOneByEmail = async (email: string): Promise<UserEntity | null> => {
+        return await this.userRepository.findOne({ where: { email } });
     };
 }

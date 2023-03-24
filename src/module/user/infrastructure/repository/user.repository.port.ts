@@ -9,7 +9,7 @@ import { UserEntity } from '../entity/user.entity';
 // }
 
 export interface UserRepositoryPort extends RepositoryPort<UserEntity> {
-    // findOneByEmail(email: string): Promise<UserEntity | null>;
+    findOneByEmail(email: string): Promise<UserEntity | null>;
     signUp(createUserResDto: CreateUserReqDto): Promise<UserEntity>;
     findOneById(userId: number): Promise<UserEntity | null>;
 }

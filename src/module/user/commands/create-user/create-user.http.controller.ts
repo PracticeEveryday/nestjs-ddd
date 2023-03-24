@@ -19,9 +19,7 @@ export class CreateUserHttpController {
         status: HttpStatus.BAD_REQUEST,
     })
     @Post('/sign-up')
-    async create(@Body() body: CreateUserReqDto) {
-        const command = new CreateUserCommand(body);
-
-        return await this.commandBus.execute(command);
+    async create(@Body() createUserReqDto: CreateUserReqDto) {
+        return await this.commandBus.execute(new CreateUserCommand(createUserReqDto));
     }
 }
