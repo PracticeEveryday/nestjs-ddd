@@ -4,8 +4,8 @@ import { DataSource } from 'typeorm';
 import { DatabaseModule } from '🔥/database/database.module';
 import { InjectionToken } from '🔥/database/injection.token';
 import { CreateUserCommand } from './application/commands/create-user/create-user.command';
-import { CreateUserService } from './application/commands/create-user/create-user.service';
-import { UserService } from './domain/inboundPorts/user.domain.service';
+import { CreateUserHandler } from './application/commands/create-user/create-user.handler';
+import { UserDomainService } from './domain/inboundPorts/user.domain.service';
 
 import { UserEntity } from './infrastructure/entity/user.entity';
 import { UserInjectionToken } from './infrastructure/repository/injectionToken';
@@ -23,11 +23,11 @@ const provider = [
     },
 ];
 
-const command = [CreateUserService, CreateUserCommand];
+const command = [CreateUserHandler, CreateUserCommand];
 
 @Module({
     imports: [CqrsModule, DatabaseModule],
     controllers: [...httpController],
-    providers: [...command, ...provider, UserRepositoryImpl, UserService],
+    providers: [...command, ...provider, UserRepositoryImpl, UserDomainService],
 })
 export class UserModule {}

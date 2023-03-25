@@ -6,7 +6,7 @@ import { UserRepositoryPort } from '../outboundPorts/user.repository.port';
 import { UserSerivcePort } from './user.domain.service.port';
 
 @Injectable()
-export class UserService implements UserSerivcePort {
+export class UserDomainService implements UserSerivcePort {
     constructor(@Inject(UserRepositoryImpl) private userRepository: UserRepositoryPort) {}
 
     async signUp(createUserReqDto: CreateUserReqDto) {
