@@ -1,4 +1,4 @@
-import { Injectable, Inject, BadRequestException } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 
 import { Repository } from 'typeorm';
 import { CreateUserReqDto } from '../../interface/dto/create-user.request.dto';
@@ -22,18 +22,17 @@ export class UserRepositoryImpl implements UserRepositoryPort {
         newUser.name = createUserReqDto.name;
 
         await this.userRepository.save(newUser);
-        return UserMapper.toDomain(newUser);
+        return UserMapper.toRequiredDomain(newUser);
     };
 
     public findOneById = async (userId: number) => {
         const user = await this.userRepository.findOne({ where: { userId } });
-        if (!user) throw new BadRequestException('유저가 없습니다.');
-        return UserMapper.toDomain(user);
+        return UserMapper.toOptionalDomain(user);
     };
 
     public findOneByEmail = async (email: string) => {
         const user = await this.userRepository.findOne({ where: { email } });
-        if (!user) throw new BadRequestException('유저가 없습니다.');
-        return UserMapper.toDomain(user);
+
+        return UserMapper.toOptionalDomain(user);
     };
 }

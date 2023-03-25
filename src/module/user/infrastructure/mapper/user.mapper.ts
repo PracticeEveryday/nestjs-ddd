@@ -1,11 +1,21 @@
 import { UserEntity } from '../entity/user.entity';
 
 import { UserDomain } from '../../domain/user.domain';
-export default class UserMapper {
-    public static toDomain(userEntity: UserEntity) {
-        const product = new UserDomain(userEntity);
 
-        return product;
+export default class UserMapper {
+    public static toOptionalDomain(userEntity: UserEntity | null): UserDomain | null {
+        if (!userEntity) {
+            return null;
+        }
+        const userDomain = new UserDomain(userEntity);
+
+        return userDomain;
+    }
+
+    public static toRequiredDomain(userEntity: UserEntity): UserDomain {
+        const userDomain = new UserDomain(userEntity);
+
+        return userDomain;
     }
 
     // public static toDomains(productsEntity: ProductEntity[]): Product[] {
