@@ -1,7 +1,8 @@
 import { BadRequestException, Inject } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { UserRepositoryImpl } from '../../infrastructure/repository/user.repository';
-import { UserRepositoryPort } from '../../infrastructure/repository/user.repository.port';
+import { UserRepositoryImpl } from '🔥/module/user/infrastructure/repository/user.repository';
+import { UserRepositoryPort } from '🔥/module/user/infrastructure/repository/user.repository.port';
+
 import { CreateUserCommand } from './create-user.command';
 
 @CommandHandler(CreateUserCommand)

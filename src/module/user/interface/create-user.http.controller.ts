@@ -1,11 +1,11 @@
 import { Body, Controller, HttpStatus, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CommandBus } from '@nestjs/cqrs';
-import { CreateUserCommand } from './create-user.command';
-import { CreateUserReqDto } from './create-user.request.dto';
+import { CreateUserCommand } from '../application/commands/create-user/create-user.command';
+import { CreateUserReqDto } from './dto/create-user.request.dto';
 
 @Controller('users')
-export class CreateUserHttpController {
+export class UserController {
     constructor(private readonly commandBus: CommandBus) {}
 
     @ApiOperation({ summary: 'Create a user' })

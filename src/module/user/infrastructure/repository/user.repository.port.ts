@@ -1,5 +1,6 @@
 import { RepositoryPort } from '🔥/libs/ddd/repository.port';
-import { CreateUserReqDto } from '../../commands/create-user/create-user.request.dto';
+import { CreateUserReqDto } from '../../interface/dto/create-user.request.dto';
+
 import { UserEntity } from '../entity/user.entity';
 
 // export interface FindUsersParams extends PaginatedQueryParams {
