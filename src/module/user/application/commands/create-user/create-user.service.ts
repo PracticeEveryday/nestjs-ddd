@@ -1,21 +1,16 @@
-import { BadRequestException, Inject } from '@nestjs/common';
+import { Inject } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { UserService } from '🔥/module/user/domain/inboundPorts/user.domain.service';
 
 import { UserRepositoryImpl } from '🔥/module/user/infrastructure/repository/user.repository';
-import { UserRepositoryPort } from '🔥/module/user/domain/outboundPorts/user.repository.port';
 
 import { CreateUserCommand } from './create-user.command';
 
 @CommandHandler(CreateUserCommand)
 export class CreateUserService implements ICommandHandler<CreateUserCommand> {
-    constructor(@Inject(UserRepositoryImpl) private userRepository: UserRepositoryPort) {}
+    constructor(@Inject(UserRepositoryImpl) private userService: UserService) {}
 
     async execute(command: CreateUserCommand) {
-        const user = await this.userRepository.findOneByEmail(command.email);
-        if (user) throw new BadRequestException('중복된 이메일입니다.');
-        await this.userRepository.signUp(command);
-        await this.userRepository.signUp(command);
-
-        return await this.userRepository.signUp(command);
+        return await this.userService.signUp(command);
     }
 }
