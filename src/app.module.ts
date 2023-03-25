@@ -1,10 +1,12 @@
-import { Module } from '@nestjs/common';
+import { ClassProvider, Module } from '@nestjs/common';
 import { UserModule } from './module/user/user.module';
 import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
 import Joi from 'joi';
 import { APP_FILTER } from '@nestjs/core';
 import { HttpExceptionFilter } from './libs/exceptions/http-exception.filter';
+
+const filters: ClassProvider[] = [{ provide: APP_FILTER, useClass: HttpExceptionFilter }];
 
 @Module({
     imports: [
@@ -26,6 +28,6 @@ import { HttpExceptionFilter } from './libs/exceptions/http-exception.filter';
         DatabaseModule,
     ],
     controllers: [],
-    providers: [{ provide: APP_FILTER, useClass: HttpExceptionFilter }],
+    providers: [...filters],
 })
 export class AppModule {}

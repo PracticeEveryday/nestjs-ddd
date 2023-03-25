@@ -5,12 +5,13 @@ import { DatabaseModule } from '🔥/database/database.module';
 import { InjectionToken } from '🔥/database/injection.token';
 import { CreateUserCommand } from './application/commands/create-user/create-user.command';
 import { CreateUserService } from './application/commands/create-user/create-user.service';
+import { UserService } from './domain/inboundPorts/user.domain.service';
 
 import { UserEntity } from './infrastructure/entity/user.entity';
 import { UserInjectionToken } from './infrastructure/repository/injectionToken';
 
 import { UserRepositoryImpl } from './infrastructure/repository/user.repository';
-import { UserController } from './interface/create-user.http.controller';
+import { UserController } from './interface/user.controller';
 
 const httpController = [UserController];
 
@@ -27,6 +28,6 @@ const command = [CreateUserService, CreateUserCommand];
 @Module({
     imports: [CqrsModule, DatabaseModule],
     controllers: [...httpController],
-    providers: [...command, ...provider, UserRepositoryImpl],
+    providers: [...command, ...provider, UserRepositoryImpl, UserService],
 })
 export class UserModule {}

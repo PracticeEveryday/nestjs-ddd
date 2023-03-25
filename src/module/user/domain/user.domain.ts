@@ -8,9 +8,9 @@ export type userRequiredProps = Required<{
 export type userOptionalProps = Partial<{
     readonly userId: number;
     readonly address: string;
-    readonly createdAt: string;
-    readonly updatedAt: string;
-    readonly deletedAt: string | null;
+    readonly createdAt: Date;
+    readonly updatedAt: Date;
+    readonly deletedAt: Date | null;
 }>;
 
 export type userProps = userRequiredProps & Required<userOptionalProps>;
@@ -24,9 +24,9 @@ export class UserDomain extends AggregateRoot implements User {
     private email: string;
     private name: string;
     private address: string;
-    private readonly createdAt: string;
-    private readonly updatedAt: string;
-    private readonly deletedAt: string | null;
+    private readonly createdAt: Date;
+    private readonly updatedAt: Date;
+    private readonly deletedAt: Date | null;
 
     constructor(properties: userRequiredProps & userOptionalProps) {
         super();

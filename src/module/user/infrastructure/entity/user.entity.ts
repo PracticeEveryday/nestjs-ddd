@@ -14,4 +14,8 @@ export class UserEntity extends BaseEntity {
     @ApiProperty({ example: '김동현', required: true })
     @Column({ length: 20, nullable: false, default: '', comment: '유저 이름' })
     name: string;
+
+    @ApiProperty({ example: '관악구 신림동', required: true })
+    @Column({ length: 20, nullable: false, default: '', comment: '주소' })
+    address: string;
 }
