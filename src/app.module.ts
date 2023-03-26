@@ -3,11 +3,12 @@ import { UserModule } from './module/user/user.module';
 import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
 import Joi from 'joi';
-import { APP_FILTER } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { HttpExceptionFilter } from './libs/exceptions/http-exception.filter';
+import { HttpResponseInterceptor } from './libs/interceptors/http-response.interceptor';
 
 const filters: ClassProvider[] = [{ provide: APP_FILTER, useClass: HttpExceptionFilter }];
-
+const interceptors: ClassProvider[] = [{ provide: APP_INTERCEPTOR, useClass: HttpResponseInterceptor }];
 @Module({
     imports: [
         ConfigModule.forRoot({
@@ -28,6 +29,6 @@ const filters: ClassProvider[] = [{ provide: APP_FILTER, useClass: HttpException
         DatabaseModule,
     ],
     controllers: [],
-    providers: [...filters],
+    providers: [...filters, ...interceptors],
 })
 export class AppModule {}
