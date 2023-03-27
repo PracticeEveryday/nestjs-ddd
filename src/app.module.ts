@@ -1,4 +1,4 @@
-import { ClassProvider, Module } from '@nestjs/common';
+import { ClassProvider, MiddlewareConsumer, Module } from '@nestjs/common';
 import { UserModule } from './module/user/user.module';
 import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
@@ -6,6 +6,7 @@ import Joi from 'joi';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { HttpExceptionFilter } from './libs/exceptions/http-exception.filter';
 import { HttpResponseInterceptor } from './libs/interceptors/http-response.interceptor';
+import { LoggerMiddleware } from './libs/middleware/logger.middleware';
 
 const filters: ClassProvider[] = [{ provide: APP_FILTER, useClass: HttpExceptionFilter }];
 const interceptors: ClassProvider[] = [{ provide: APP_INTERCEPTOR, useClass: HttpResponseInterceptor }];
@@ -31,4 +32,8 @@ const interceptors: ClassProvider[] = [{ provide: APP_INTERCEPTOR, useClass: Htt
     controllers: [],
     providers: [...filters, ...interceptors],
 })
-export class AppModule {}
+export class AppModule {
+    configure(consumer: MiddlewareConsumer) {
+        consumer.apply(LoggerMiddleware).forRoutes('*');
+    }
+}
