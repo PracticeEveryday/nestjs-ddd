@@ -1,4 +1,3 @@
-// import { Command, CommandProps } from '🔥/libs/ddd/command.base';
 import { IQuery } from '@nestjs/cqrs';
 
 class Properties {

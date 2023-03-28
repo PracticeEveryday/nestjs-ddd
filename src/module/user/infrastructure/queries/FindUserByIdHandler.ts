@@ -3,8 +3,7 @@ import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 
 import { UserRepositoryImpl } from '🔥/module/user/infrastructure/repository/user.repository';
 import { UserDomain } from '../../domain/user.domain';
-
-import { FindUserByIdQuery } from './find-user-by-Id.query';
+import { FindUserByIdQuery } from './FindUserByIdQuery';
 
 @QueryHandler(FindUserByIdQuery)
 export class FindUserByIdHandler implements IQueryHandler<FindUserByIdQuery> {

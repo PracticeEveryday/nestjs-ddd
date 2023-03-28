@@ -8,8 +8,9 @@ import { CreateUserHandler } from './application/commands/create-user/create-use
 import { UserDomainService } from './domain/inboundPorts/user.domain.service';
 
 import { UserEntity } from './infrastructure/entity/user.entity';
-import { FindUserByIdHandler } from './infrastructure/queries/find-user-by-id.handler';
-import { FindUserByIdQuery } from './infrastructure/queries/find-user-by-Id.query';
+import { FindUserByIdHandler } from './infrastructure/queries/FindUserByIdHandler';
+import { FindUserByIdQuery } from './infrastructure/queries/FindUserByIdQuery';
+
 import { UserInjectionToken } from './infrastructure/repository/injectionToken';
 
 import { UserRepositoryImpl } from './infrastructure/repository/user.repository';
@@ -25,7 +26,7 @@ const provider = [
     },
 ];
 
-const commands = [CreateUserHandler, CreateUserCommand];
+const commands = [CreateUserCommand, CreateUserHandler];
 const queries = [FindUserByIdQuery, FindUserByIdHandler];
 
 @Module({

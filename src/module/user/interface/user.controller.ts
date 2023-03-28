@@ -1,12 +1,12 @@
 import { Body, Controller, HttpStatus, Param, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CreateUserCommand } from '../application/commands/create-user/create-user.command';
-import { CreateUserReqDto } from './dto/create-user.req.dto';
+import { CreateUserReqDto } from './dto/request/create-user.req.dto';
 // import { UserSerivcePort } from '../domain/inboundPorts/user.domain.service.port';
 // import { UserService } from '../domain/inboundPorts/user.domain.service';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { UserIdParamReqDto } from './dto/userId.param.req.dto';
-import { FindUserByIdQuery } from '../infrastructure/queries/find-user-by-Id.query';
+import { UserIdParamReqDto } from './dto/request/userId.param.req.dto';
+import { FindUserByIdQuery } from '../infrastructure/queries/FindUserByIdQuery';
 
 @Controller('users')
 export class UserController {

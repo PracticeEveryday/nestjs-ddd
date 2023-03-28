@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
 
 import { Repository } from 'typeorm';
-import { CreateUserReqDto } from '../../interface/dto/create-user.req.dto';
+import { CreateUserReqDto } from '../../interface/dto/request/create-user.req.dto';
 
 import { UserEntity } from '../entity/user.entity';
 import { UserInjectionToken } from './injectionToken';
