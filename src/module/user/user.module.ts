@@ -8,6 +8,8 @@ import { CreateUserHandler } from './application/commands/create-user/create-use
 import { UserDomainService } from './domain/inboundPorts/user.domain.service';
 
 import { UserEntity } from './infrastructure/entity/user.entity';
+import { FindUserByIdHandler } from './infrastructure/queries/find-user-by-id.handler';
+import { FindUserByIdQuery } from './infrastructure/queries/find-user-by-Id.query';
 import { UserInjectionToken } from './infrastructure/repository/injectionToken';
 
 import { UserRepositoryImpl } from './infrastructure/repository/user.repository';
@@ -23,11 +25,12 @@ const provider = [
     },
 ];
 
-const command = [CreateUserHandler, CreateUserCommand];
+const commands = [CreateUserHandler, CreateUserCommand];
+const queries = [FindUserByIdQuery, FindUserByIdHandler];
 
 @Module({
     imports: [CqrsModule, DatabaseModule],
     controllers: [...httpController],
-    providers: [...command, ...provider, UserRepositoryImpl, UserDomainService],
+    providers: [...commands, ...queries, ...provider, UserRepositoryImpl, UserDomainService],
 })
 export class UserModule {}

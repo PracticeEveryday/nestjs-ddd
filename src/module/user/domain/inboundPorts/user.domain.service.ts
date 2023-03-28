@@ -1,7 +1,7 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 
 import { UserRepositoryImpl } from '../../infrastructure/repository/user.repository';
-import { CreateUserReqDto } from '../../interface/dto/create-user.request.dto';
+import { CreateUserReqDto } from '../../interface/dto/create-user.req.dto';
 import { UserRepositoryPort } from '../outboundPorts/user.repository.port';
 import { UserSerivcePort } from './user.domain.service.port';
 
