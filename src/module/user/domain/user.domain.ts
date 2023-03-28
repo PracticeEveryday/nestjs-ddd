@@ -33,7 +33,7 @@ export class UserDomain extends AggregateRoot implements User {
         Object.assign(this, properties);
     }
 
-    properties(): userProps {
+    public properties() {
         return {
             userId: this.userId,
             email: this.email,

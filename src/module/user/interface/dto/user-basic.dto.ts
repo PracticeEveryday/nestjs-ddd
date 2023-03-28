@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Expose } from 'class-transformer';
 import { IsDate, IsEmail, IsNotEmpty, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 
 export class UserBasicDto {
@@ -10,6 +11,7 @@ export class UserBasicDto {
     @IsNotEmpty()
     @MinLength(5)
     @MaxLength(320)
+    @Expose()
     readonly email: string;
 
     @ApiProperty({
@@ -20,6 +22,7 @@ export class UserBasicDto {
     @IsNotEmpty()
     @MinLength(3)
     @MaxLength(60)
+    @Expose()
     readonly name: string;
 
     @ApiProperty({
@@ -27,9 +30,9 @@ export class UserBasicDto {
         description: '유저 주소',
     })
     @IsString()
-    @MinLength(3)
     @IsOptional()
     @MaxLength(60)
+    @Expose()
     readonly address?: string;
 
     @IsDate()
@@ -38,6 +41,7 @@ export class UserBasicDto {
         example: '2023-03-28 15:13:15.840',
         description: '유저 생성 시간',
     })
+    @Expose()
     createdAt: Date;
 
     @IsDate()
@@ -46,6 +50,7 @@ export class UserBasicDto {
         example: '2023-03-28 15:13:15.840',
         description: '유저 수정 시간',
     })
+    @Expose()
     updatedAt: Date;
 
     @IsDate()
@@ -54,5 +59,6 @@ export class UserBasicDto {
         example: '2023-03-28 15:13:15.840 | null',
         description: '유저 삭제 시간',
     })
+    @Expose()
     deletedAt: Date;
 }

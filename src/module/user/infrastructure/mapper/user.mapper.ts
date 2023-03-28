@@ -7,6 +7,7 @@ export default class UserMapper {
         if (!userEntity) {
             return null;
         }
+
         const userDomain = new UserDomain(userEntity);
 
         return userDomain;
