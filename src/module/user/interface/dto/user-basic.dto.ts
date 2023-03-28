@@ -7,58 +7,58 @@ export class UserBasicDto {
         example: 'test@test.com',
         description: 'User email address',
     })
+    @Expose()
     @IsEmail()
     @IsNotEmpty()
     @MinLength(5)
     @MaxLength(320)
-    @Expose()
     readonly email: string;
 
     @ApiProperty({
         example: 'kim',
         description: 'User name',
     })
+    @Expose()
     @IsString()
     @IsNotEmpty()
     @MinLength(3)
     @MaxLength(60)
-    @Expose()
     readonly name: string;
 
     @ApiProperty({
         example: '신림동 관악구',
         description: '유저 주소',
     })
+    @Expose()
     @IsString()
     @IsOptional()
     @MaxLength(60)
-    @Expose()
     readonly address?: string;
 
-    @IsDate()
-    @IsNotEmpty()
     @ApiProperty({
         example: '2023-03-28 15:13:15.840',
         description: '유저 생성 시간',
     })
     @Expose()
+    @IsDate()
+    @IsNotEmpty()
     createdAt: Date;
 
-    @IsDate()
-    @IsOptional()
     @ApiProperty({
         example: '2023-03-28 15:13:15.840',
         description: '유저 수정 시간',
     })
     @Expose()
-    updatedAt: Date;
-
     @IsDate()
     @IsOptional()
+    updatedAt: Date;
+
     @ApiProperty({
         example: '2023-03-28 15:13:15.840 | null',
         description: '유저 삭제 시간',
     })
     @Expose()
+    @IsDate()
+    @IsOptional()
     deletedAt: Date;
 }
