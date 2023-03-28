@@ -27,7 +27,9 @@ export class UserController {
     })
     @Post('/sign-up')
     async create(@Body() createUserReqDto: CreateUserReqDto): Promise<CreateUserResDto> {
-        return await this.commandBus.execute(new CreateUserCommand(createUserReqDto));
+        const user = await this.commandBus.execute(new CreateUserCommand(createUserReqDto));
+        console.log(user, 'user');
+        return user;
     }
 
     @ApiResponse({
