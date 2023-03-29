@@ -14,7 +14,7 @@
         "start:debug": "nest start --debug --watch",
         "start:prod": "yarn run prebuild && nest build && cross-env NODE_ENV=production node dist/main",
         "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-        "pre-push": "./huskyhooks/pre-push",
+        "pre-push": "./husky/pre-push",
         "test": "jest",
         "prepare": "husky install",
         "test:watch": "jest --watch",
