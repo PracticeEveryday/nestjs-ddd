@@ -1,4 +1,5 @@
 import { BadRequestException } from '@nestjs/common';
+// eslint-disable-next-line import/named
 import { ClassConstructor, plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
 

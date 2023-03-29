@@ -1,12 +1,13 @@
 import { BadRequestException, Inject } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { returnValueToDto } from '🔥/libs/decorators/returnValueToDto.decorator';
 
+import { returnValueToDto } from '🔥/libs/decorators/returnValueToDto.decorator';
 import { UserRepositoryImpl } from '🔥/module/user/infrastructure/repository/user.repository';
+
+import { FindUserByIdQuery } from './FindUserByIdQuery';
 import { UserDomain } from '../../domain/user.domain';
 // import { CreateUserResDto } from '../../interface/dto/response/create-user.res.dto';
 import { UserBasicDto } from '../../interface/dto/user-basic.dto';
-import { FindUserByIdQuery } from './FindUserByIdQuery';
 
 @QueryHandler(FindUserByIdQuery)
 export class FindUserByIdHandler implements IQueryHandler<FindUserByIdQuery> {

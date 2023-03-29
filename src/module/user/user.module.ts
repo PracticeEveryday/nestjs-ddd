@@ -1,18 +1,17 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { DataSource } from 'typeorm';
+
 import { DatabaseModule } from '🔥/database/database.module';
 import { InjectionToken } from '🔥/database/injection.token';
+
 import { CreateUserCommand } from './application/commands/create-user/create-user.command';
 import { CreateUserHandler } from './application/commands/create-user/create-user.handler';
 import { UserDomainService } from './domain/inboundPorts/user.domain.service';
-
 import { UserEntity } from './infrastructure/entity/user.entity';
 import { FindUserByIdHandler } from './infrastructure/queries/FindUserByIdHandler';
 import { FindUserByIdQuery } from './infrastructure/queries/FindUserByIdQuery';
-
 import { UserInjectionToken } from './infrastructure/repository/injectionToken';
-
 import { UserRepositoryImpl } from './infrastructure/repository/user.repository';
 import { UserController } from './interface/user.controller';
 

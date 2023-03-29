@@ -1,6 +1,5 @@
-import { UserEntity } from '../entity/user.entity';
-
 import { UserDomain } from '../../domain/user.domain';
+import { UserEntity } from '../entity/user.entity';
 
 export default class UserMapper {
     public static toOptionalDomain(userEntity: UserEntity | null): UserDomain | null {

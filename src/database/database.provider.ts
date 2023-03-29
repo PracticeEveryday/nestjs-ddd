@@ -2,6 +2,7 @@ import { Provider } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { DataSource } from 'typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
+
 import { UserEntity } from '🔥/module/user/infrastructure/entity/user.entity';
 
 import { InjectionToken } from './injection.token';

@@ -1,12 +1,13 @@
 import { ClassProvider, MiddlewareConsumer, Module } from '@nestjs/common';
-import { UserModule } from './module/user/user.module';
-import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
-import Joi from 'joi';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
+import Joi from 'joi';
+
+import { DatabaseModule } from './database/database.module';
 import { HttpExceptionFilter } from './libs/exceptions/http-exception.filter';
 import { HttpResponseInterceptor } from './libs/interceptors/http-response.interceptor';
 import { LoggerMiddleware } from './libs/middleware/logger.middleware';
+import { UserModule } from './module/user/user.module';
 
 const filters: ClassProvider[] = [{ provide: APP_FILTER, useClass: HttpExceptionFilter }];
 const interceptors: ClassProvider[] = [{ provide: APP_INTERCEPTOR, useClass: HttpResponseInterceptor }];
