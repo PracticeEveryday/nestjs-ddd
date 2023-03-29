@@ -1,4 +1,5 @@
 import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus } from '@nestjs/common';
+import colors from 'colors';
 import { Request, Response } from 'express';
 
 @Catch(HttpException)
@@ -11,11 +12,10 @@ export class HttpExceptionFilter implements ExceptionFilter {
         let error: any;
 
         if (exception instanceof HttpException) {
-            console.log(exception.message, '2');
             statusCode = exception.getStatus();
             error = exception.getResponse();
         } else {
-            console.error('exception', exception);
+            console.error(colors.red(`exception: ${exception}`));
             statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
             error = 'Internal server error';
         }
@@ -26,7 +26,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
             method: request.method,
             error: error || null,
         };
-        console.error('exception: ', exception);
+        console.error(colors.red(`exception: ${exception}`));
 
         response.status(statusCode).json(errorResponse);
     }

@@ -52,6 +52,7 @@
         "@typescript-eslint/eslint-plugin": "^5.0.0",
         "@typescript-eslint/parser": "^5.0.0",
         "class-validator": "^0.14.0",
+        "colors": "^1.4.0",
         "cookie-parser": "^1.4.6",
         "cross-env": "^7.0.3",
         "eslint": "^8.0.1",

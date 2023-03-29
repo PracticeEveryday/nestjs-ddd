@@ -2,6 +2,7 @@ import { BadRequestException } from '@nestjs/common';
 // eslint-disable-next-line import/named
 import { ClassConstructor, plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
+import colors from 'colors';
 
 export const returnValueToDto = (dto: ClassConstructor<any>) => (_target: any, _key: string, descriptor: TypedPropertyDescriptor<any>) => {
     const originalMethod = descriptor.value;
@@ -12,7 +13,7 @@ export const returnValueToDto = (dto: ClassConstructor<any>) => (_target: any, _
 
         const errors = await validate(object);
         if (errors.length > 0) {
-            console.log(errors);
+            console.log(colors.red(`errors: ${errors}`));
 
             throw new BadRequestException('유효성 검사에 실패하였습니다.');
         }

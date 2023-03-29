@@ -1,6 +1,7 @@
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory, Reflector } from '@nestjs/core';
+import colors from 'colors';
 import cookieParser from 'cookie-parser';
 
 import { AppModule } from './app.module';
@@ -27,7 +28,7 @@ async function bootstrap() {
 
     if (PORT && typeof PORT === 'number') {
         await app.listen(PORT);
-        console.log(`Application is running on: ${await app.getUrl()}`);
+        console.log(colors.rainbow(`Application is running on: ${await app.getUrl()}`));
     }
 }
 
