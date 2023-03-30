@@ -3,7 +3,7 @@
 
 FORBIDDEN_HTTPS_URL="https://github.com/PracticeEveryday/nestjs-ddd.git" # insert your remote url (https)
 FORBIDDEN_SSH_URL="git@github.com-PracticeEveryday:PracticeEveryday/nestjs-ddd.git" # insert your remote url (ssh)
-FORBIDDEN_REF="refs/heads/main" # insert branch ref
+FORBIDDEN_REF="refs/heads/master" # insert branch ref
 
 remote="$1"
 url="$2"
@@ -17,7 +17,7 @@ if read local_ref local_sha remote_ref remote_sha
 then
     if [ "$remote_ref" == "$FORBIDDEN_REF" ]
     then
-        echo "DO NOT PUSH it main"
+        echo "DO NOT PUSH it master"
         exit 1 # 금지된 ref 로 push 를 실행하면 에러
     fi
 fi
