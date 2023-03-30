@@ -13,8 +13,6 @@ then
     exit 0 # Forked Project 에서는 제한하지 않음
 fi
 
-echo local_ref local_sha remote_ref remote_sha
-
 if read local_ref local_sha remote_ref remote_sha
 then
     if [ "$remote_ref" == "$FORBIDDEN_REF" ]
