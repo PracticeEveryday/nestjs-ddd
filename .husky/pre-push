@@ -7,6 +7,9 @@ FORBIDDEN_REF="refs/heads/main" # insert branch ref
 remote="$1"
 url="$2"
 
+echo $remote
+echo $url
+
 if [ "$url" != "$FORBIDDEN_HTTPS_URL" -a "$url" != "$FORBIDDEN_SSH_URL" ]
 then
     exit 0 # Forked Project 에서는 제한하지 않음
