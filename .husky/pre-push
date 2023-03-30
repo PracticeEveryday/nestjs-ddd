@@ -10,6 +10,13 @@ ARR_GIT_STDIN=($(echo $HUSKY_GIT_STDIN))
 remote=${ARR_GIT_PARAMS[0]}
 url=${ARR_GIT_PARAMS[1]}
 
+
+echo $FORBIDDEN_REF
+echo $remote_ref
+echo $url
+echo $remote
+
+
 local_ref=${ARR_GIT_STDIN[0]}
 local_sha=${ARR_GIT_STDIN[1]}
 remote_ref=${ARR_GIT_STDIN[2]}
@@ -17,11 +24,11 @@ remote_sha=${ARR_GIT_STDIN[3]}
 
 if [ "$url" != "$FORBIDDEN_HTTPS_URL" -a "$url" != "$FORBIDDEN_SSH_URL" ]
 then
+    echo "여기가 실행되니?"
     exit 0 # Forked Project 에서는 제한하지 않음
 fi
 
-echo $FORBIDDEN_REF
-echo $remote_ref
+
 
 if [ "$remote_ref" == "$FORBIDDEN_REF" ]
 then
