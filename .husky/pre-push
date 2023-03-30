@@ -2,7 +2,7 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 FORBIDDEN_HTTPS_URL="https://github.com/PracticeEveryday/nestjs-ddd.git" # insert your remote url (https)
-FORBIDDEN_SSH_URL="git@github.com:PracticeEveryday/nestjs-ddd.git" # insert your remote url (ssh)
+FORBIDDEN_SSH_URL="git@github.com-PracticeEveryday:PracticeEveryday/nestjs-ddd.git" # insert your remote url (ssh)
 FORBIDDEN_REF="refs/heads/main" # insert branch ref
 
 remote="$1"
