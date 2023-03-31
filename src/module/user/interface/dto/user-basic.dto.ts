@@ -33,7 +33,7 @@ export class UserBasicDto {
     @IsString()
     @IsOptional()
     @MaxLength(60)
-    readonly address?: string;
+    readonly address: string | null;
 
     @ApiProperty({
         example: '2023-03-28 15:13:15.840',

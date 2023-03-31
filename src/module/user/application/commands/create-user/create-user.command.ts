@@ -4,6 +4,9 @@ import { ICommand } from '@nestjs/cqrs';
 class Properties {
     readonly email: string;
     readonly name: string;
+    readonly address: string | null;
+    readonly major: string;
+    readonly birth: string;
 }
 
 export class CreateUserCommand extends Properties implements ICommand {

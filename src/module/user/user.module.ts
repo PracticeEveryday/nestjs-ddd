@@ -8,6 +8,7 @@ import { InjectionToken } from '🔥/database/injection.token';
 import { CreateUserCommand } from './application/commands/create-user/create-user.command';
 import { CreateUserHandler } from './application/commands/create-user/create-user.handler';
 import { UserDomainService } from './domain/user/inboundPorts/user.domain.service';
+import { UserDetailEntity } from './infrastructure/entity/user-detail.entity';
 import { UserEntity } from './infrastructure/entity/user.entity';
 import { FindUserByIdHandler } from './infrastructure/queries/FindUserByIdHandler';
 import { FindUserByIdQuery } from './infrastructure/queries/FindUserByIdQuery';
@@ -21,6 +22,11 @@ const provider = [
     {
         provide: UserInjectionToken.USER_REPOSITORY,
         useFactory: (dataSource: DataSource) => dataSource.getRepository(UserEntity),
+        inject: [InjectionToken.MAIN_DATABASE],
+    },
+    {
+        provide: UserInjectionToken.USER_DETAIL_REPOSITORY,
+        useFactory: (dataSource: DataSource) => dataSource.getRepository(UserDetailEntity),
         inject: [InjectionToken.MAIN_DATABASE],
     },
 ];
