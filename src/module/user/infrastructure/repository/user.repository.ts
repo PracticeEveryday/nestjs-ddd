@@ -15,13 +15,13 @@ export class UserRepositoryImpl implements UserRepositoryPort {
         private userRepository: Repository<UserEntity>
     ) {}
 
-    public signUp = async (createUserReqDto: CreateUserReqDto): Promise<UserDomain> => {
+    public signUp = async (createUserReqDto: CreateUserReqDto): Promise<UserEntity> => {
         const newUser = new UserEntity();
         newUser.email = createUserReqDto.email;
         newUser.name = createUserReqDto.name;
 
         await this.userRepository.save(newUser);
-        return UserMapper.toRequiredDomain(newUser);
+        return newUser;
     };
 
     public findOneById = async (userId: number): Promise<UserDomain | null> => {

@@ -6,6 +6,7 @@ import { UserDetailRepositoryPort } from '../../domain/user-detail/outboundPorts
 import { UserDetailDomain } from '../../domain/user-detail/userDetail.domain';
 import { CreateUserReqDto } from '../../interface/dto/request/create-user.req.dto';
 import { UserDetailEntity } from '../entity/user-detail.entity';
+import { UserEntity } from '../entity/user.entity';
 import UserDetailMapper from '../mapper/user-detail.mapper';
 
 @Injectable()
@@ -15,10 +16,11 @@ export class UserDetailRepositoryImpl implements UserDetailRepositoryPort {
         private userRepository: Repository<UserDetailEntity>
     ) {}
 
-    public create = async (createUserReqDto: CreateUserReqDto): Promise<UserDetailDomain> => {
+    public create = async (createUserReqDto: CreateUserReqDto, user: UserEntity): Promise<UserDetailDomain> => {
         const newUserDetail = new UserDetailEntity();
         newUserDetail.major = createUserReqDto.major;
         newUserDetail.birth = createUserReqDto.birth;
+        newUserDetail.user = user;
 
         await this.userRepository.save(newUserDetail);
         return UserDetailMapper.toRequiredDomain(newUserDetail);

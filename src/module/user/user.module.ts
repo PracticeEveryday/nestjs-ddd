@@ -13,6 +13,7 @@ import { UserEntity } from './infrastructure/entity/user.entity';
 import { FindUserByIdHandler } from './infrastructure/queries/FindUserByIdHandler';
 import { FindUserByIdQuery } from './infrastructure/queries/FindUserByIdQuery';
 import { UserInjectionToken } from './infrastructure/repository/injectionToken';
+import { UserDetailRepositoryImpl } from './infrastructure/repository/user-detail.repository';
 import { UserRepositoryImpl } from './infrastructure/repository/user.repository';
 import { UserController } from './interface/user.controller';
 
@@ -33,10 +34,10 @@ const provider = [
 
 const commands = [CreateUserCommand, CreateUserHandler];
 const queries = [FindUserByIdQuery, FindUserByIdHandler];
-
+const repositories = [UserDetailRepositoryImpl, UserRepositoryImpl];
 @Module({
     imports: [CqrsModule, DatabaseModule],
     controllers: [...httpController],
-    providers: [...commands, ...queries, ...provider, UserRepositoryImpl, UserDomainService],
+    providers: [...commands, ...queries, ...provider, ...repositories, UserDomainService],
 })
 export class UserModule {}
