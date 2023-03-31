@@ -1,7 +1,7 @@
 import { Inject } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
-import { UserDomainService } from '🔥/module/user/domain/inboundPorts/user.domain.service';
+import { UserDomainService } from '🔥/module/user/domain/user/inboundPorts/user.domain.service';
 
 import { CreateUserCommand } from './create-user.command';
 

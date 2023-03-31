@@ -1,6 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { BaseEntity } from 'src/database/base.entity';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+
+import { UserDetailEntity } from './user-detail.entity';
 
 @Entity('users')
 export class UserEntity extends BaseEntity {
@@ -18,4 +20,7 @@ export class UserEntity extends BaseEntity {
     @ApiProperty({ example: '관악구 신림동', required: true })
     @Column({ length: 20, nullable: false, default: '', comment: '주소' })
     address: string;
+
+    @OneToOne(() => UserDetailEntity)
+    userDetail: UserDetailEntity;
 }

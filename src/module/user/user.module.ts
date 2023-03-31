@@ -7,7 +7,7 @@ import { InjectionToken } from '🔥/database/injection.token';
 
 import { CreateUserCommand } from './application/commands/create-user/create-user.command';
 import { CreateUserHandler } from './application/commands/create-user/create-user.handler';
-import { UserDomainService } from './domain/inboundPorts/user.domain.service';
+import { UserDomainService } from './domain/user/inboundPorts/user.domain.service';
 import { UserEntity } from './infrastructure/entity/user.entity';
 import { FindUserByIdHandler } from './infrastructure/queries/FindUserByIdHandler';
 import { FindUserByIdQuery } from './infrastructure/queries/FindUserByIdQuery';

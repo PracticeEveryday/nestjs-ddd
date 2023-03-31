@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { DataSource } from 'typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
+import { UserDetailEntity } from '🔥/module/user/infrastructure/entity/user-detail.entity';
 import { UserEntity } from '🔥/module/user/infrastructure/entity/user.entity';
 
 import { InjectionToken } from './injection.token';
@@ -24,7 +25,7 @@ export const databaseProviders: Provider[] = [
                 username,
                 password,
                 database,
-                entities: [UserEntity],
+                entities: [UserEntity, UserDetailEntity],
                 synchronize: true,
                 namingStrategy: new SnakeNamingStrategy(),
             });

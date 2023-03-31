@@ -1,4 +1,4 @@
-import { UserDomain } from '../../domain/user.domain';
+import { UserDomain } from '../../domain/user/user.domain';
 import { UserEntity } from '../entity/user.entity';
 
 export default class UserMapper {

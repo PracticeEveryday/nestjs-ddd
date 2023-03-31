@@ -1,6 +1,6 @@
 import { RepositoryPort } from '🔥/libs/ddd/repository.port';
 
-import { CreateUserReqDto } from '../../interface/dto/request/create-user.req.dto';
+import { CreateUserReqDto } from '../../../interface/dto/request/create-user.req.dto';
 import { UserDomain } from '../user.domain';
 
 export interface UserRepositoryPort extends RepositoryPort<UserDomain> {
