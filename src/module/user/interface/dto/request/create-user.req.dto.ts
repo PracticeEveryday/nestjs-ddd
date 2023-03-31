@@ -22,5 +22,5 @@ export class CreateUserReqDto extends PickType(UserBasicDto, ['email', 'name', '
     @IsString()
     @IsOptional()
     @MaxLength(60)
-    readonly birth: string;
+    readonly birth: string | null;
 }

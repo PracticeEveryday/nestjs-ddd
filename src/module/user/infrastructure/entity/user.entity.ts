@@ -17,9 +17,9 @@ export class UserEntity extends BaseEntity {
     @Column({ length: 20, nullable: false, default: '', comment: '유저 이름' })
     name: string;
 
-    @ApiProperty({ example: '관악구 신림동', required: true })
-    @Column({ length: 20, nullable: false, default: '', comment: '주소' })
-    address: string;
+    @ApiProperty({ example: '관악구 신림동' })
+    @Column({ type: 'varchar', length: 20, nullable: true, default: '', comment: '주소' })
+    address: string | null;
 
     @OneToOne(() => UserDetailEntity)
     userDetail: UserDetailEntity;

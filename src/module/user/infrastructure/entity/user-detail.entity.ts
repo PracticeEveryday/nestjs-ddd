@@ -14,8 +14,8 @@ export class UserDetailEntity extends BaseEntity {
     major: string;
 
     @ApiProperty({ example: '1995-05-10' })
-    @Column({ length: 50, nullable: true, default: '', comment: '생년월일' })
-    birth: string;
+    @Column({ type: 'varchar', length: 50, nullable: true, default: '', comment: '생년월일' })
+    birth: string | null;
 
     @OneToOne(() => UserEntity)
     @JoinColumn()

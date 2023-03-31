@@ -6,7 +6,7 @@ class Properties {
     readonly name: string;
     readonly address: string | null;
     readonly major: string;
-    readonly birth: string;
+    readonly birth: string | null;
 }
 
 export class CreateUserCommand extends Properties implements ICommand {

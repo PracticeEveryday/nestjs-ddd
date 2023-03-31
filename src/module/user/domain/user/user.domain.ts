@@ -7,7 +7,7 @@ export type userRequiredProps = Required<{
 
 export type userOptionalProps = Partial<{
     readonly userId: number;
-    readonly address: string;
+    readonly address: string | null;
     readonly createdAt: Date;
     readonly updatedAt: Date;
     readonly deletedAt: Date | null;
@@ -23,7 +23,7 @@ export class UserDomain extends AggregateRoot implements User {
     private readonly userId: number;
     private email: string;
     private name: string;
-    private address: string;
+    private address: string | null;
     private readonly createdAt: Date;
     private readonly updatedAt: Date;
     private readonly deletedAt: Date | null;
