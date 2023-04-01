@@ -17,7 +17,7 @@ export class UserDetailRepositoryImpl implements UserDetailRepositoryPort {
 
     public create = async (createUserReqDto: CreateUserReqDto, user: UserEntity, queryRunner: QueryRunner): Promise<UserDetailDomain> => {
         const newUserDetail = new UserDetailEntity();
-        newUserDetail.major = { test: 1234 } as any;
+        newUserDetail.major = createUserReqDto.major;
         newUserDetail.birth = createUserReqDto.birth;
         newUserDetail.user = user;
 
