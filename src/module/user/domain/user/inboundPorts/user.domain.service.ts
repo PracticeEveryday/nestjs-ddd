@@ -1,4 +1,5 @@
-import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { DataSource } from 'typeorm';
 
 import { returnValueToDto } from '🔥/libs/decorators/returnValueToDto.decorator';
 import { UserDetailRepositoryImpl } from '🔥/module/user/infrastructure/repository/user-detail.repository';
@@ -14,7 +15,8 @@ import { UserRepositoryPort } from '../outboundPorts/user.repository.port';
 export class UserDomainService implements UserSerivcePort {
     constructor(
         @Inject(UserRepositoryImpl) private userRepository: UserRepositoryPort,
-        @Inject(UserDetailRepositoryImpl) private userDetailRepository: UserDetailRepositoryPort
+        @Inject(UserDetailRepositoryImpl) private userDetailRepository: UserDetailRepositoryPort,
+        private readonly datasource: DataSource
     ) {}
 
     @returnValueToDto(CreateUserResDto)
@@ -22,9 +24,24 @@ export class UserDomainService implements UserSerivcePort {
         const user = await this.userRepository.findOneByEmail(createUserReqDto.email);
         if (user) throw new BadRequestException('중복된 이메일입니다.');
 
-        const newUser = await this.userRepository.signUp(createUserReqDto);
-        await this.userDetailRepository.create(createUserReqDto, newUser);
+        const queryRunner = this.datasource.createQueryRunner();
+        await queryRunner.connect();
+        await queryRunner.startTransaction();
 
-        return newUser;
+        try {
+            const newUser = await this.userRepository.signUp(createUserReqDto, queryRunner);
+            await this.userDetailRepository.create(createUserReqDto, newUser, queryRunner);
+
+            await queryRunner.commitTransaction();
+            return newUser;
+        } catch (err: unknown) {
+            await queryRunner.rollbackTransaction();
+            if (err instanceof Error) {
+                throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
+            }
+            throw new HttpException('err.message', HttpStatus.BAD_REQUEST);
+        } finally {
+            await queryRunner.release();
+        }
     }
 }

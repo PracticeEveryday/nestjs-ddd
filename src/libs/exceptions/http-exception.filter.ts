@@ -27,7 +27,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
             error: error || null,
         };
         console.error(colors.red(`exception: ${exception}`));
-        console.error(colors.red(`errorResponse: ${errorResponse}`));
+        console.log(errorResponse);
 
         response.status(statusCode).json(errorResponse);
     }

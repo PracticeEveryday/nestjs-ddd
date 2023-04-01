@@ -14,9 +14,9 @@ export const databaseProviders: Provider[] = [
         inject: [ConfigService],
         useFactory: async (configService: ConfigService) => {
             const host = configService.get<string>('DB_HOST') || '';
-            const username = configService.get<string>('DB_USER') || '';
+            const username = configService.get<string>('DB_USERNAME') || '';
             const password = configService.get<string>('DB_PASSWORD') || '';
-            const database = configService.get<string>('DB_DB') || '';
+            const database = configService.get<string>('DB_DATABASE') || '';
 
             const dataSource = new DataSource({
                 type: 'mysql',

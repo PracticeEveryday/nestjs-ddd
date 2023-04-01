@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { QueryRunner, Repository } from 'typeorm';
 
 import { UserInjectionToken } from './injectionToken';
 import { UserRepositoryPort } from '../../domain/user/outboundPorts/user.repository.port';
@@ -15,12 +15,12 @@ export class UserRepositoryImpl implements UserRepositoryPort {
         private userRepository: Repository<UserEntity>
     ) {}
 
-    public signUp = async (createUserReqDto: CreateUserReqDto): Promise<UserEntity> => {
+    public signUp = async (createUserReqDto: CreateUserReqDto, queryRunner: QueryRunner): Promise<UserEntity> => {
         const newUser = new UserEntity();
         newUser.email = createUserReqDto.email;
         newUser.name = createUserReqDto.name;
 
-        await this.userRepository.save(newUser);
+        await queryRunner.manager.save(newUser);
         return newUser;
     };
 

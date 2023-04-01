@@ -1,9 +1,10 @@
 import { ClassProvider, MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import Joi from 'joi';
 
-import { DatabaseModule } from './database/database.module';
+import { MysqlConfigProvider } from './database/mysql-config.provider.ts';
 import { HttpExceptionFilter } from './libs/exceptions/http-exception.filter';
 import { HttpResponseInterceptor } from './libs/interceptors/http-response.interceptor';
 import { LoggerMiddleware } from './libs/middleware/logger.middleware';
@@ -27,8 +28,10 @@ const interceptors: ClassProvider[] = [{ provide: APP_INTERCEPTOR, useClass: Htt
                 REDIS_PORT: Joi.number(),
             }),
         }),
+        TypeOrmModule.forRootAsync({
+            useClass: MysqlConfigProvider,
+        }),
         UserModule,
-        DatabaseModule,
     ],
     controllers: [],
     providers: [...filters, ...interceptors],
