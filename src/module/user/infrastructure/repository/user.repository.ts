@@ -1,7 +1,7 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { QueryRunner, Repository } from 'typeorm';
 
-import { UserInjectionToken } from './injectionToken';
 import { UserRepositoryPort } from '../../domain/user/outboundPorts/user.repository.port';
 import { UserDomain } from '../../domain/user/user.domain';
 import { CreateUserReqDto } from '../../interface/dto/request/create-user.req.dto';
@@ -11,7 +11,7 @@ import UserMapper from '../mapper/user.mapper';
 @Injectable()
 export class UserRepositoryImpl implements UserRepositoryPort {
     constructor(
-        @Inject(UserInjectionToken.USER_REPOSITORY)
+        @InjectRepository(UserEntity)
         private userRepository: Repository<UserEntity>
     ) {}
 

@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { QueryRunner } from 'typeorm';
 
-// import { UserInjectionToken } from './injectionToken';
 import { UserDetailRepositoryPort } from '../../domain/user-detail/outboundPorts/user.repository.port';
 import { UserDetailDomain } from '../../domain/user-detail/userDetail.domain';
 import { CreateUserReqDto } from '../../interface/dto/request/create-user.req.dto';
@@ -12,9 +11,8 @@ import UserDetailMapper from '../mapper/user-detail.mapper';
 @Injectable()
 export class UserDetailRepositoryImpl implements UserDetailRepositoryPort {
     constructor() {
-        // private userRepository: Repository<UserDetailEntity> // @Inject(UserInjectionToken.USER_DETAIL_REPOSITORY)
+        //
     }
-
     public create = async (createUserReqDto: CreateUserReqDto, user: UserEntity, queryRunner: QueryRunner): Promise<UserDetailDomain> => {
         const newUserDetail = new UserDetailEntity();
         newUserDetail.major = createUserReqDto.major;
