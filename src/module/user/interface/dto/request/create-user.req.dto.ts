@@ -1,6 +1,7 @@
 import { ApiProperty, PickType } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import { IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
+import { EntityManager } from 'typeorm';
 
 import { UserBasicDto } from '../user-basic.dto';
 
@@ -23,4 +24,6 @@ export class CreateUserReqDto extends PickType(UserBasicDto, ['email', 'name', '
     @IsOptional()
     @MaxLength(60)
     readonly birth: string | null;
+
+    queryRunnerManager: EntityManager;
 }

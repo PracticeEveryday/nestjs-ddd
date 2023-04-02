@@ -1,6 +1,10 @@
-import { Body, Controller, HttpStatus, Param, Post } from '@nestjs/common';
+import { Body, Controller, HttpStatus, Param, Post, UseInterceptors } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { EntityManager } from 'typeorm';
+
+import { TransactionManager } from '🔥/libs/decorators/transaction.decorator';
+import { TransactionInterceptor } from '🔥/libs/interceptors/transaction.interceptor';
 
 import { CreateUserReqDto } from './dto/request/create-user.req.dto';
 // import { UserSerivcePort } from '../domain/inboundPorts/user.domain.service.port';
@@ -27,7 +31,12 @@ export class UserController {
         status: HttpStatus.BAD_REQUEST,
     })
     @Post('/sign-up')
-    async create(@Body() createUserReqDto: CreateUserReqDto): Promise<CreateUserResDto> {
+    @UseInterceptors(TransactionInterceptor)
+    async create(
+        @Body() createUserReqDto: CreateUserReqDto,
+        @TransactionManager() queryRunnerManager: EntityManager
+    ): Promise<CreateUserResDto> {
+        createUserReqDto.queryRunnerManager = queryRunnerManager;
         const user = await this.commandBus.execute(new CreateUserCommand(createUserReqDto));
         return user;
     }

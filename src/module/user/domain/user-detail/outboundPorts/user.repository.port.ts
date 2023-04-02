@@ -1,4 +1,4 @@
-import { QueryRunner } from 'typeorm';
+import { EntityManager } from 'typeorm';
 
 import { RepositoryPort } from '🔥/libs/ddd/repository.port';
 import { UserEntity } from '🔥/module/user/infrastructure/entity/user.entity';
@@ -7,5 +7,5 @@ import { CreateUserReqDto } from '🔥/module/user/interface/dto/request/create-
 import { UserDetailDomain } from '../userDetail.domain';
 
 export interface UserDetailRepositoryPort extends RepositoryPort<UserDetailDomain> {
-    create(createUserResDto: CreateUserReqDto, user: UserEntity, queryRunner: QueryRunner): Promise<UserDetailDomain>;
+    create(createUserResDto: CreateUserReqDto, user: UserEntity, entityManager: EntityManager): Promise<UserDetailDomain>;
 }
