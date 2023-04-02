@@ -5,13 +5,13 @@ import { returnValueToDto } from '🔥/libs/decorators/returnValueToDto.decorato
 import { UserRepositoryImpl } from '🔥/module/user/infrastructure/repository/user.repository';
 
 import { FindUserByIdQuery } from './FindUserByIdQuery';
+import { UserRepositoryPort } from '../../domain/user/outboundPorts/user.repository.port';
 import { UserDomain } from '../../domain/user/user.domain';
-// import { CreateUserResDto } from '../../interface/dto/response/create-user.res.dto';
 import { UserBasicDto } from '../../interface/dto/user-basic.dto';
 
 @QueryHandler(FindUserByIdQuery)
 export class FindUserByIdHandler implements IQueryHandler<FindUserByIdQuery> {
-    constructor(@Inject(UserRepositoryImpl) private userRepository: UserRepositoryImpl) {}
+    constructor(@Inject(UserRepositoryImpl) private userRepository: UserRepositoryPort) {}
 
     @returnValueToDto(UserBasicDto)
     async execute(query: FindUserByIdQuery): Promise<UserDomain> {
