@@ -22,10 +22,11 @@ export class UserDomainService implements UserSerivcePort {
         const user = await this.userRepository.findOneByEmail(createUserReqDto.email);
         if (user) throw new BadRequestException('중복된 이메일입니다.');
 
-        const entityManager = createUserReqDto.queryRunnerManager;
+        const newUser = await this.userRepository.signUp(createUserReqDto);
+        if (!newUser) throw new BadRequestException('유저가 정상적으로 생성되지 않았습니다.');
 
-        const newUser = await this.userRepository.signUp(createUserReqDto, entityManager);
-        await this.userDetailRepository.create(createUserReqDto, newUser, entityManager);
+        createUserReqDto.user = newUser;
+        await this.userDetailRepository.create(createUserReqDto);
 
         return newUser;
     }

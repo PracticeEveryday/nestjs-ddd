@@ -2,6 +2,8 @@
 import { ICommand } from '@nestjs/cqrs';
 import { EntityManager } from 'typeorm';
 
+import { UserEntity } from '🔥/module/user/infrastructure/entity/user.entity';
+
 class Properties {
     readonly email: string;
     readonly name: string;
@@ -9,6 +11,7 @@ class Properties {
     readonly major: string;
     readonly birth: string | null;
     readonly queryRunnerManager: EntityManager;
+    readonly user: UserEntity;
 }
 
 export class CreateUserCommand extends Properties implements ICommand {
