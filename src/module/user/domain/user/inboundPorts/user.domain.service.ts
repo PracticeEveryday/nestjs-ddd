@@ -14,7 +14,7 @@ import { UserRepositoryPort } from '../outboundPorts/user.repository.port';
 export class UserDomainService implements UserSerivcePort {
     constructor(
         @Inject(UserRepositoryImpl) private userRepository: UserRepositoryPort,
-        @Inject(UserDetailRepositoryImpl) private userDetailRepository: UserDetailRepositoryPort // private readonly datasource: DataSource
+        @Inject(UserDetailRepositoryImpl) private userDetailRepository: UserDetailRepositoryPort
     ) {}
 
     @returnValueToDto(CreateUserResDto)
