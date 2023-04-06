@@ -1,13 +1,18 @@
 import { ClassProvider, MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
+import { MulterModule } from '@nestjs/platform-express';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { MulterConfigService } from 'config/multer.config';
 import Joi from 'joi';
 
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 import { MysqlConfigProvider } from './database/mysql-config.provider.ts';
 import { HttpExceptionFilter } from './libs/exceptions/http-exception.filter';
 import { HttpResponseInterceptor } from './libs/interceptors/http-response.interceptor';
 import { LoggerMiddleware } from './libs/middleware/logger.middleware';
+import { FileModule } from './libs/utils/file.utils';
 import { UserModule } from './module/user/user.module';
 
 const filters: ClassProvider[] = [{ provide: APP_FILTER, useClass: HttpExceptionFilter }];
@@ -32,9 +37,13 @@ const interceptors: ClassProvider[] = [{ provide: APP_INTERCEPTOR, useClass: Htt
             useClass: MysqlConfigProvider,
         }),
         UserModule,
+        MulterModule.registerAsync({
+            useClass: MulterConfigService,
+        }),
+        FileModule,
     ],
-    controllers: [],
-    providers: [...filters, ...interceptors],
+    controllers: [AppController],
+    providers: [...filters, ...interceptors, AppService],
 })
 export class AppModule {
     configure(consumer: MiddlewareConsumer) {
