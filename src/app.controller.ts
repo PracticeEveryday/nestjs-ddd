@@ -1,10 +1,11 @@
 import { Controller, MaxFileSizeValidator, ParseFilePipe, Post, UploadedFiles } from '@nestjs/common';
-import { ApiCreatedResponse, ApiOperation } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { AnyFileArray } from './libs/decorators/any-file.decorators';
 import { FileUtil } from './libs/utils/file.utils';
 
 @Controller()
+@ApiTags('Root API')
 export class AppController {
     constructor(private readonly fileUtil: FileUtil) {}
 
