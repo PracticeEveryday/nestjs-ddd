@@ -1,21 +1,18 @@
 import { applyDecorators, UseInterceptors } from '@nestjs/common';
-import { AnyFilesInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes } from '@nestjs/swagger';
 
-export function AnyFileArray() {
+export function ApiFile(fieldName = 'file') {
     return applyDecorators(
-        UseInterceptors(AnyFilesInterceptor()),
+        UseInterceptors(FileInterceptor(fieldName)),
         ApiConsumes('multipart/form-data'),
         ApiBody({
             schema: {
                 type: 'object',
                 properties: {
-                    files: {
-                        type: 'array',
-                        items: {
-                            type: 'string',
-                            format: 'binary',
-                        },
+                    [fieldName]: {
+                        type: 'string',
+                        format: 'binary',
                     },
                 },
             },
