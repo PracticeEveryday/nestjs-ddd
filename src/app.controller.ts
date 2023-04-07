@@ -1,5 +1,6 @@
 import { Controller, MaxFileSizeValidator, ParseFilePipe, Post, UploadedFiles } from '@nestjs/common';
 import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { string } from 'joi';
 
 import { AnyFileArray } from './libs/decorators/any-file.decorators';
 import { FileUtil } from './libs/utils/file.utils';
@@ -16,9 +17,10 @@ export class AppController {
     })
     @ApiCreatedResponse({
         description: '파일 여러개 업로드 성공',
+        type: string,
     })
     @AnyFileArray()
-    public async postMms(
+    public postMms(
         @UploadedFiles(
             new ParseFilePipe({
                 validators: [new MaxFileSizeValidator({ maxSize: 100 * 1024 * 1024 })],
@@ -26,7 +28,7 @@ export class AppController {
             })
         )
         files: Express.Multer.File[]
-    ) {
+    ): string {
         return this.fileUtil.fileUploads(files);
     }
 }

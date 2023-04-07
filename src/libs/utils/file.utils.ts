@@ -1,6 +1,6 @@
 import path from 'path';
 
-import { Injectable, Module } from '@nestjs/common';
+import { BadRequestException, Injectable, Module } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 
 type FileType = {
@@ -15,7 +15,7 @@ export class FileUtil {
      * @param files 파일 Array
      * @returns 파일 이름과 본래 파일 객체
      */
-    public fileUploads(files: Express.Multer.File[]): FileType[] {
+    public fileUploads(files: Express.Multer.File[]): string {
         const result: FileType[] = [];
         files.forEach((file) => {
             const res: FileType = {
@@ -25,7 +25,11 @@ export class FileUtil {
 
             result.push(res);
         });
-        return result;
+        if (files.length === result.length) {
+            return 'File Upload Succ';
+        } else {
+            throw new BadRequestException('File Upload Fail');
+        }
     }
 }
 
