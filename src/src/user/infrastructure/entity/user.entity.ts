@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-import { BaseEntity } from '🔥/libs/database/base.entity';
+import { BaseEntity } from '🔥/libs/module/database/base.entity';
 
 import { UserDetailEntity } from './user-detail.entity';
 

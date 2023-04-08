@@ -1,7 +1,10 @@
 import path from 'path';
 
 import { BadRequestException, Injectable, Module } from '@nestjs/common';
+import { MulterModule } from '@nestjs/platform-express';
 import { v4 as uuidv4 } from 'uuid';
+
+import { MulterConfigProvider } from './multer-config.provider';
 
 type FileType = {
     originalname: string;
@@ -51,7 +54,12 @@ export class FileUtil {
 }
 
 @Module({
+    imports: [
+        MulterModule.registerAsync({
+            useClass: MulterConfigProvider,
+        }),
+    ],
     providers: [FileUtil],
-    exports: [FileUtil],
+    exports: [FileUtil, MulterModule],
 })
 export class FileModule {}
