@@ -1,4 +1,4 @@
-import { Controller, MaxFileSizeValidator, ParseFilePipe, Post, UploadedFile, UploadedFiles } from '@nestjs/common';
+import { BadRequestException, Controller, MaxFileSizeValidator, ParseFilePipe, Post, UploadedFile, UploadedFiles } from '@nestjs/common';
 import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { string } from 'joi';
 
@@ -25,12 +25,14 @@ export class AppController {
         @UploadedFile(
             new ParseFilePipe({
                 validators: [new MaxFileSizeValidator({ maxSize: 100 * 1024 * 1024 })],
-                fileIsRequired: false,
+                fileIsRequired: true,
             })
         )
         file: Express.Multer.File
     ): string {
-        return this.fileUtil.uploadFile(file);
+        if (!file) throw new BadRequestException('파일이 존재하지 않습니다.');
+        console.log(file, 'file');
+        return 'succ';
     }
 
     @Post('/uploads')

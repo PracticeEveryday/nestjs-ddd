@@ -12,15 +12,17 @@ type FileType = {
 export class FileUtil {
     /**
      * 개수 재한 없이 파일 업로드 함수
-     * @param files 파일 Array
-     * @returns 파일 이름과 본래 파일 객체
+     * @param files 파일
+     * @returns 성공 메시지
      */
     public uploadFile(file: Express.Multer.File): string {
         const result: FileType[] = [];
+        const 확장자 = file.mimetype.split('/')[1];
+        const 파일이름 = file.originalname.split('.')[0];
 
         const res: FileType = {
             originalname: uuidv4() + path.extname(file.originalname),
-            filename: file.filename,
+            filename: `${file.filename}_${파일이름}.${확장자}`,
         };
 
         result.push(res);
@@ -30,7 +32,7 @@ export class FileUtil {
     /**
      * 개수 재한 없이 파일 업로드 함수
      * @param files 파일 Array
-     * @returns 파일 이름과 본래 파일 객체
+     * @returns 성공 메시지
      */
     public uploadAnyFileList(files: Express.Multer.File[]): string {
         const result: FileType[] = [];
@@ -48,6 +50,10 @@ export class FileUtil {
             throw new BadRequestException('File Upload Fail');
         }
     }
+
+    // private generateFileKey(path: string, filename: string, extname: string): string {
+    //     return `${path}/${filename}-${uuidv4()}${extname}`;
+    // }
 }
 
 @Module({
