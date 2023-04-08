@@ -3,20 +3,21 @@ import { ConfigModule } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { MulterModule } from '@nestjs/platform-express';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { MulterConfigService } from 'config/multer.config';
+import { MulterConfigProvider } from 'config/multer-config.provider';
 import Joi from 'joi';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { MysqlConfigProvider } from './database/mysql-config.provider.ts';
+import { MysqlConfigProvider } from './libs/database/mysql-config.provider';
 import { HttpExceptionFilter } from './libs/exceptions/http-exception.filter';
 import { HttpResponseInterceptor } from './libs/interceptors/http-response.interceptor';
 import { LoggerMiddleware } from './libs/middleware/logger.middleware';
-import { FileModule } from './libs/utils/file.utils';
-import { UserModule } from './module/user/user.module';
+import { FileModule } from './libs/module/utils/file-utils.module';
+import { UserModule } from './src/user/user.module';
 
 const filters: ClassProvider[] = [{ provide: APP_FILTER, useClass: HttpExceptionFilter }];
 const interceptors: ClassProvider[] = [{ provide: APP_INTERCEPTOR, useClass: HttpResponseInterceptor }];
+
 @Module({
     imports: [
         ConfigModule.forRoot({
@@ -38,7 +39,7 @@ const interceptors: ClassProvider[] = [{ provide: APP_INTERCEPTOR, useClass: Htt
         }),
         UserModule,
         MulterModule.registerAsync({
-            useClass: MulterConfigService,
+            useClass: MulterConfigProvider,
         }),
         FileModule,
     ],

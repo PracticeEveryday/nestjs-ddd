@@ -1,7 +1,7 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 
 import { returnValueToDto } from '🔥/libs/decorators/returnValueToDto.decorator';
-import { UserDetailRepositoryImpl } from '🔥/module/user/infrastructure/repository/user-detail.repository';
+import { UserDetailRepositoryImpl } from '🔥/src/user/infrastructure/repository/user-detail.repository';
 
 import { UserSerivcePort } from './user.domain.service.port';
 import { UserRepositoryImpl } from '../../../infrastructure/repository/user.repository';

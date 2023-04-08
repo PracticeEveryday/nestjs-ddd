@@ -1,5 +1,5 @@
 import { RepositoryPort } from '🔥/libs/ddd/repository.port';
-import { CreateUserReqDto } from '🔥/module/user/interface/dto/request/create-user.req.dto';
+import { CreateUserReqDto } from '🔥/src/user/interface/dto/request/create-user.req.dto';
 
 import { UserDetailDomain } from '../userDetail.domain';
 

@@ -2,7 +2,7 @@ import { BadRequestException, Inject } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 
 import { returnValueToDto } from '🔥/libs/decorators/returnValueToDto.decorator';
-import { UserRepositoryImpl } from '🔥/module/user/infrastructure/repository/user.repository';
+import { UserRepositoryImpl } from '🔥/src/user/infrastructure/repository/user.repository';
 
 import { FindUserByIdQuery } from './FindUserByIdQuery';
 import { UserRepositoryPort } from '../../domain/user/outboundPorts/user.repository.port';

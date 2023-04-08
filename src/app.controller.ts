@@ -4,7 +4,7 @@ import { string } from 'joi';
 
 import { ApiFileArray } from './libs/decorators/api-any-files.decorator';
 import { ApiFile } from './libs/decorators/api-file.decorator';
-import { FileUtil } from './libs/utils/file.utils';
+import { FileUtil } from './libs/module/utils/file-utils.module';
 
 @Controller()
 @ApiTags('Root API')

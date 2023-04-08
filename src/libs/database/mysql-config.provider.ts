@@ -3,8 +3,8 @@ import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
-import { UserDetailEntity } from '🔥/module/user/infrastructure/entity/user-detail.entity';
-import { UserEntity } from '🔥/module/user/infrastructure/entity/user.entity';
+import { UserDetailEntity } from '🔥/src/user/infrastructure/entity/user-detail.entity';
+import { UserEntity } from '🔥/src/user/infrastructure/entity/user.entity';
 
 @Injectable()
 export class MysqlConfigProvider implements TypeOrmOptionsFactory {

@@ -6,7 +6,7 @@ import { MulterModuleOptions, MulterOptionsFactory } from '@nestjs/platform-expr
 import { diskStorage } from 'multer';
 
 @Injectable()
-export class MulterConfigService implements MulterOptionsFactory {
+export class MulterConfigProvider implements MulterOptionsFactory {
     createMulterOptions(): MulterModuleOptions {
         return {
             storage: diskStorage({

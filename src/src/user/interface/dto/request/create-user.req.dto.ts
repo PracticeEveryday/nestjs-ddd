@@ -3,7 +3,7 @@ import { Expose } from 'class-transformer';
 import { IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
 import { EntityManager } from 'typeorm';
 
-import { UserEntity } from '🔥/module/user/infrastructure/entity/user.entity';
+import { UserEntity } from '🔥/src/user/infrastructure/entity/user.entity';
 
 import { UserBasicDto } from '../user-basic.dto';
 

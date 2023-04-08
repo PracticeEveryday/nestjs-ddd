@@ -1,5 +1,5 @@
 import { RepositoryPort } from '🔥/libs/ddd/repository.port';
-import { UserEntity } from '🔥/module/user/infrastructure/entity/user.entity';
+import { UserEntity } from '🔥/src/user/infrastructure/entity/user.entity';
 
 import { CreateUserReqDto } from '../../../interface/dto/request/create-user.req.dto';
 import { UserDomain } from '../user.domain';

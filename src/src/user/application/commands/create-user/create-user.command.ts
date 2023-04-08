@@ -2,7 +2,7 @@
 import { ICommand } from '@nestjs/cqrs';
 import { EntityManager } from 'typeorm';
 
-import { UserEntity } from '🔥/module/user/infrastructure/entity/user.entity';
+import { UserEntity } from '🔥/src/user/infrastructure/entity/user.entity';
 
 class Properties {
     readonly email: string;

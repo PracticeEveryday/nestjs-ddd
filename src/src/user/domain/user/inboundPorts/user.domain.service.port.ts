@@ -1,4 +1,4 @@
-import { UserEntity } from '🔥/module/user/infrastructure/entity/user.entity';
+import { UserEntity } from '🔥/src/user/infrastructure/entity/user.entity';
 
 import { CreateUserReqDto } from '../../../interface/dto/request/create-user.req.dto';
 
