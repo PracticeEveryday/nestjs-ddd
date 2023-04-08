@@ -15,8 +15,7 @@ export class FileUtil {
      * @param files 파일
      * @returns 성공 메시지
      */
-    public uploadFile(file: Express.Multer.File): string {
-        const result: FileType[] = [];
+    public uploadFile(file: Express.Multer.File): FileType {
         const 확장자 = file.mimetype.split('/')[1];
         const 파일이름 = file.originalname.split('.')[0];
 
@@ -25,8 +24,7 @@ export class FileUtil {
             filename: `${file.filename}_${파일이름}.${확장자}`,
         };
 
-        result.push(res);
-        return 'File Upload Succ';
+        return res;
     }
 
     /**
@@ -34,7 +32,7 @@ export class FileUtil {
      * @param files 파일 Array
      * @returns 성공 메시지
      */
-    public uploadAnyFileList(files: Express.Multer.File[]): string {
+    public uploadAnyFileList(files: Express.Multer.File[]): FileType[] {
         const result: FileType[] = [];
         files.forEach((file) => {
             const res: FileType = {
@@ -45,15 +43,11 @@ export class FileUtil {
             result.push(res);
         });
         if (files.length === result.length) {
-            return 'File Upload Succ';
+            return result;
         } else {
             throw new BadRequestException('File Upload Fail');
         }
     }
-
-    // private generateFileKey(path: string, filename: string, extname: string): string {
-    //     return `${path}/${filename}-${uuidv4()}${extname}`;
-    // }
 }
 
 @Module({

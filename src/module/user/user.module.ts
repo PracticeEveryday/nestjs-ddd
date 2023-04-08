@@ -18,6 +18,7 @@ const httpController = [UserController];
 const commands = [CreateUserCommand, CreateUserHandler];
 const queries = [FindUserByIdQuery, FindUserByIdHandler];
 const repositories = [UserDetailRepositoryImpl, UserRepositoryImpl];
+
 @Module({
     imports: [CqrsModule, TypeOrmModule.forFeature([UserEntity, UserDetailEntity])],
     controllers: [...httpController],

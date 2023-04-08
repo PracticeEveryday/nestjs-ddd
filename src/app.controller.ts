@@ -29,10 +29,10 @@ export class AppController {
             })
         )
         file: Express.Multer.File
-    ): string {
+    ) {
         if (!file) throw new BadRequestException('파일이 존재하지 않습니다.');
-        console.log(file, 'file');
-        return 'succ';
+
+        return this.fileUtil.uploadFile(file);
     }
 
     @Post('/uploads')
@@ -53,7 +53,7 @@ export class AppController {
             })
         )
         files: Express.Multer.File[]
-    ): string {
+    ) {
         return this.fileUtil.uploadAnyFileList(files);
     }
 }
