@@ -35,6 +35,22 @@ const configOption = {
     }),
 };
 
+const dailyOptions = (level: string) => {
+    return {
+        level,
+        datePattern: 'YYYY-MM-DD',
+        dirname: path.join(process.cwd(), `./logs/${level}`),
+        filename: `%DATE%.${level}.log`,
+        maxFiles: 30, //30일치 로그파일 저장,
+        maxSize: '10mb',
+        zippedArchive: true, // 로그가 쌓이면 압축하여 관리
+        format: winston.format.combine(
+            winston.format.timestamp({ format: 'YYYY-MM-DD hh:mm:ss' }),
+            winston.format.printf((info) => `[${info['timestamp']}] ${info.level}: ${info.message}`)
+        ),
+    };
+};
+
 @Module({
     imports: [
         ConfigModule.forRoot(configOption),
@@ -44,6 +60,7 @@ const configOption = {
         WinstonModule.forRoot({
             transports: [
                 new winston.transports.Console({
+                    level: process.env['NODE_ENV'] === 'production' ? 'http' : 'silly',
                     format: winston.format.combine(
                         winston.format.timestamp(), // timestamp를 찍을거고
                         winston.format.ms(), // ms 단위로 찍을거야
@@ -54,32 +71,9 @@ const configOption = {
                         })
                     ),
                 }),
-                new DailyRotateFile({
-                    level: 'info',
-                    maxFiles: 7,
-                    maxSize: '10mb',
-                    filename: '%DATE%.log',
-                    datePattern: 'YYYY-MM-DD',
-                    zippedArchive: true,
-                    dirname: path.join(process.cwd(), './logs'),
-                    format: winston.format.combine(
-                        winston.format.timestamp({ format: 'YYYY-MM-DD hh:mm:ss' }),
-                        winston.format.printf((info) => `[${info['timestamp']}] ${info.level}: ${info.message}`)
-                    ),
-                }),
-                new DailyRotateFile({
-                    level: 'error',
-                    maxFiles: 7,
-                    maxSize: '10mb',
-                    zippedArchive: true,
-                    datePattern: 'YYYY-MM-DD',
-                    filename: `%DATE%.error.log`,
-                    dirname: path.join(process.cwd(), './logs/error'),
-                    format: winston.format.combine(
-                        winston.format.timestamp({ format: 'YYYY-MM-DD hh:mm:ss' }),
-                        winston.format.printf((info) => `[${info['timestamp']}] ${info.level}: ${info.message}`)
-                    ),
-                }),
+                new DailyRotateFile(dailyOptions('info')),
+                new DailyRotateFile(dailyOptions('error')),
+                new DailyRotateFile(dailyOptions('warn')),
             ],
         }),
     ],
