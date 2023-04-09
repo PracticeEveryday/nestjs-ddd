@@ -8,14 +8,18 @@ import {
     UploadedFile,
     UploadedFiles,
 } from '@nestjs/common';
-import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { string } from 'joi';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { WINSTON_MODULE_PROVIDER, WinstonLogger } from 'nest-winston';
 
 import { ApiAnyFileArray } from './libs/decorators/api-any-files.decorator';
 import { ApiFile } from './libs/decorators/api-file.decorator';
 import { ApiFileArray } from './libs/decorators/api-fileArray.decorator';
 import { FileUtil } from './libs/module/file/file.module';
+
+const filePipeOptions = new ParseFilePipe({
+    validators: [new MaxFileSizeValidator({ maxSize: 100 * 1024 * 1024 })],
+    fileIsRequired: false,
+});
 
 @Controller()
 @ApiTags('Root API')
@@ -27,18 +31,9 @@ export class AppController {
         summary: '파일 하나 업로드 API',
         description: '파일을 하나 올립니다.',
     })
-    @ApiCreatedResponse({
-        description: '파일 하나 업로드 성공',
-        type: string,
-    })
     @ApiFile('file')
     public uploadFile(
-        @UploadedFile(
-            new ParseFilePipe({
-                validators: [new MaxFileSizeValidator({ maxSize: 100 * 1024 * 1024 })],
-                fileIsRequired: true,
-            })
-        )
+        @UploadedFile(filePipeOptions)
         file: Express.Multer.File
     ) {
         this.logger.log('info', 'uploadFile');
@@ -53,18 +48,9 @@ export class AppController {
         summary: '파일 여러장 업로드 API',
         description: '파일을 여러장 올립니다.',
     })
-    @ApiCreatedResponse({
-        description: '파일 여러장 업로드 성공',
-        type: string,
-    })
     @ApiFileArray()
     public uploadFileArray(
-        @UploadedFiles(
-            new ParseFilePipe({
-                validators: [new MaxFileSizeValidator({ maxSize: 100 * 1024 * 1024 })],
-                fileIsRequired: false,
-            })
-        )
+        @UploadedFiles(filePipeOptions)
         file: {
             file1: Express.Multer.File[];
             file2: Express.Multer.File[];
@@ -86,18 +72,9 @@ export class AppController {
         summary: '파일 여러개 업로드 API',
         description: '파일을 아무 개수나 올려도 됩니다.',
     })
-    @ApiCreatedResponse({
-        description: '파일 여러개 업로드 성공',
-        type: string,
-    })
     @ApiAnyFileArray()
     public uploadAnyFileList(
-        @UploadedFiles(
-            new ParseFilePipe({
-                validators: [new MaxFileSizeValidator({ maxSize: 100 * 1024 * 1024 })],
-                fileIsRequired: false,
-            })
-        )
+        @UploadedFiles(filePipeOptions)
         files: Express.Multer.File[]
     ) {
         this.logger.log('info', 'uploadAnyFile');

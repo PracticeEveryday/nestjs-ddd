@@ -23,7 +23,7 @@ export class UserController {
     ) {}
     //@Inject(UserService) private readonly userService: UserSerivcePort
 
-    @ApiOperation({ summary: 'Create a user' })
+    @ApiOperation({ summary: '유저 생성 API' })
     @ApiResponse({
         status: HttpStatus.OK,
         type: CreateUserResDto,
@@ -41,6 +41,7 @@ export class UserController {
         @TransactionManager() queryRunnerManager: EntityManager
     ): Promise<CreateUserResDto> {
         this.logger.log('info', 'Create User');
+
         createUserReqDto.queryRunnerManager = queryRunnerManager;
         const user = await this.commandBus.execute(new CreateUserCommand(createUserReqDto));
         return user;
@@ -51,9 +52,10 @@ export class UserController {
         type: CreateUserResDto,
     })
     @Post('/:userId')
-    @ApiOperation({ summary: 'Get a user' })
+    @ApiOperation({ summary: '유저 상세 조회 API' })
     public async findOneById(@Param() param: UserIdParamReqDto): Promise<CreateUserResDto> {
         this.logger.log('info', `findOneById userId: ${param.userId}`);
+
         return await this.queryBus.execute(new FindUserByIdQuery(param));
     }
 }
