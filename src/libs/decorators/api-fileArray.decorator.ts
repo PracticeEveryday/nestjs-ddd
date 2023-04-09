@@ -7,7 +7,7 @@ export function ApiFileArray() {
         UseInterceptors(
             FileFieldsInterceptor([
                 { name: 'file1', maxCount: 1 },
-                { name: 'file2', maxCount: 1 },
+                { name: 'file2', maxCount: 2 },
                 { name: 'file3', maxCount: 1 },
             ])
         ),
@@ -21,8 +21,11 @@ export function ApiFileArray() {
                         format: 'binary',
                     },
                     file2: {
-                        type: 'string',
-                        format: 'binary',
+                        type: 'array',
+                        items: {
+                            type: 'string',
+                            format: 'binary',
+                        },
                     },
                     file3: {
                         type: 'string',
