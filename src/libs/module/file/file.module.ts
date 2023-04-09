@@ -37,14 +37,16 @@ export class FileUtil {
      */
     public uploadAnyFileList(files: Express.Multer.File[]): FileType[] {
         const result: FileType[] = [];
-        files.forEach((file) => {
-            const res: FileType = {
-                originalname: uuidv4() + path.extname(file.originalname),
-                filename: file.filename,
-            };
+        files
+            .filter((file) => file)
+            .forEach((file) => {
+                const res: FileType = {
+                    originalname: uuidv4() + path.extname(file.originalname),
+                    filename: file.filename,
+                };
 
-            result.push(res);
-        });
+                result.push(res);
+            });
         if (files.length === result.length) {
             return result;
         } else {

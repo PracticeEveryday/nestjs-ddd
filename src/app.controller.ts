@@ -1,19 +1,10 @@
-import {
-    BadRequestException,
-    Controller,
-    MaxFileSizeValidator,
-    ParseFilePipe,
-    Post,
-    UploadedFile,
-    UploadedFiles,
-    UseInterceptors,
-} from '@nestjs/common';
-import { FilesInterceptor } from '@nestjs/platform-express';
+import { BadRequestException, Controller, MaxFileSizeValidator, ParseFilePipe, Post, UploadedFile, UploadedFiles } from '@nestjs/common';
 import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { string } from 'joi';
 
-import { ApiFileArray } from './libs/decorators/api-any-files.decorator';
+import { ApiAnyFileArray } from './libs/decorators/api-any-files.decorator';
 import { ApiFile } from './libs/decorators/api-file.decorator';
+import { ApiFileArray } from './libs/decorators/api-fileArray.decorator';
 import { FileUtil } from './libs/module/file/file.module';
 
 @Controller()
@@ -45,31 +36,33 @@ export class AppController {
         return this.fileUtil.uploadFile(file);
     }
 
-    @Post('/upload')
+    @Post('/uploads')
     @ApiOperation({
-        summary: '파일 하나 업로드 API',
-        description: '파일을 하나 올립니다.',
+        summary: '파일 여러장 업로드 API',
+        description: '파일을 여러장 올립니다.',
     })
     @ApiCreatedResponse({
-        description: '파일 하나 업로드 성공',
+        description: '파일 여러장 업로드 성공',
         type: string,
     })
-    @UseInterceptors(FilesInterceptor('files'))
+    @ApiFileArray()
     public uploadFileArray(
-        @UploadedFiles(
-            new ParseFilePipe({
-                validators: [new MaxFileSizeValidator({ maxSize: 100 * 1024 * 1024 })],
-                fileIsRequired: true,
-            })
-        )
-        files: Express.Multer.File[]
+        @UploadedFiles()
+        file: {
+            file1: Express.Multer.File[];
+            file2: Express.Multer.File[];
+            file3: Express.Multer.File[];
+        }
     ) {
-        if (!files) throw new BadRequestException('파일이 존재하지 않습니다.');
+        const files: Express.Multer.File[] = [];
+        if (file.file1) files.push(...file.file1);
+        if (file.file2) files.push(...file.file2);
+        if (file.file3) files.push(...file.file3);
 
         return this.fileUtil.uploadAnyFileList(files);
     }
 
-    @Post('/uploads')
+    @Post('/uploads/any')
     @ApiOperation({
         summary: '파일 여러개 업로드 API',
         description: '파일을 아무 개수나 올려도 됩니다.',
@@ -78,7 +71,7 @@ export class AppController {
         description: '파일 여러개 업로드 성공',
         type: string,
     })
-    @ApiFileArray()
+    @ApiAnyFileArray()
     public uploadAnyFileList(
         @UploadedFiles(
             new ParseFilePipe({
