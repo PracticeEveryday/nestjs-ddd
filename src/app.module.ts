@@ -51,32 +51,28 @@ const dailyOptions = (level: string) => {
     };
 };
 
-@Module({
-    imports: [
-        ConfigModule.forRoot(configOption),
-        DatabaseModule,
-        UserModule,
-        FileModule,
-        WinstonModule.forRoot({
-            transports: [
-                new winston.transports.Console({
-                    level: process.env['NODE_ENV'] === 'production' ? 'http' : 'silly',
-                    format: winston.format.combine(
-                        winston.format.timestamp(), // timestamp를 찍을거고
-                        winston.format.ms(), // ms 단위로 찍을거야
+const winstonOptions = {
+    transports: [
+        new winston.transports.Console({
+            level: process.env['NODE_ENV'] === 'production' ? 'http' : 'silly',
+            format: winston.format.combine(
+                winston.format.timestamp(), // timestamp를 찍을거고
+                winston.format.ms(), // ms 단위로 찍을거야
 
-                        nestWinstonModuleUtilities.format.nestLike('PracticeApp', {
-                            colors: true,
-                            prettyPrint: true,
-                        })
-                    ),
-                }),
-                new DailyRotateFile(dailyOptions('info')),
-                new DailyRotateFile(dailyOptions('error')),
-                new DailyRotateFile(dailyOptions('warn')),
-            ],
+                nestWinstonModuleUtilities.format.nestLike('PracticeApp', {
+                    colors: true,
+                    prettyPrint: true,
+                })
+            ),
         }),
+        new DailyRotateFile(dailyOptions('info')),
+        new DailyRotateFile(dailyOptions('error')),
+        new DailyRotateFile(dailyOptions('warn')),
     ],
+};
+
+@Module({
+    imports: [ConfigModule.forRoot(configOption), DatabaseModule, UserModule, FileModule, WinstonModule.forRoot(winstonOptions)],
     controllers: [AppController],
     providers: [...filters, ...interceptors, AppService],
 })
