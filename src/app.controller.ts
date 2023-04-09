@@ -1,4 +1,14 @@
-import { BadRequestException, Controller, MaxFileSizeValidator, ParseFilePipe, Post, UploadedFile, UploadedFiles } from '@nestjs/common';
+import {
+    BadRequestException,
+    Controller,
+    MaxFileSizeValidator,
+    ParseFilePipe,
+    Post,
+    UploadedFile,
+    UploadedFiles,
+    UseInterceptors,
+} from '@nestjs/common';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { string } from 'joi';
 
@@ -33,6 +43,30 @@ export class AppController {
         if (!file) throw new BadRequestException('파일이 존재하지 않습니다.');
 
         return this.fileUtil.uploadFile(file);
+    }
+
+    @Post('/upload')
+    @ApiOperation({
+        summary: '파일 하나 업로드 API',
+        description: '파일을 하나 올립니다.',
+    })
+    @ApiCreatedResponse({
+        description: '파일 하나 업로드 성공',
+        type: string,
+    })
+    @UseInterceptors(FilesInterceptor('files'))
+    public uploadFileArray(
+        @UploadedFiles(
+            new ParseFilePipe({
+                validators: [new MaxFileSizeValidator({ maxSize: 100 * 1024 * 1024 })],
+                fileIsRequired: true,
+            })
+        )
+        files: Express.Multer.File[]
+    ) {
+        if (!files) throw new BadRequestException('파일이 존재하지 않습니다.');
+
+        return this.fileUtil.uploadAnyFileList(files);
     }
 
     @Post('/uploads')

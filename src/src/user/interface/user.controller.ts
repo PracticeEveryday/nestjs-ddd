@@ -31,7 +31,7 @@ export class UserController {
     })
     @Post('/sign-up')
     @UseInterceptors(TransactionInterceptor)
-    async create(
+    public async create(
         @Body() createUserReqDto: CreateUserReqDto,
         @TransactionManager() queryRunnerManager: EntityManager
     ): Promise<CreateUserResDto> {
@@ -46,7 +46,7 @@ export class UserController {
     })
     @Post('/:userId')
     @ApiOperation({ summary: 'Get a user' })
-    async findOneById(@Param() param: UserIdParamReqDto): Promise<CreateUserResDto> {
+    public async findOneById(@Param() param: UserIdParamReqDto): Promise<CreateUserResDto> {
         return await this.queryBus.execute(new FindUserByIdQuery(param));
     }
 }
