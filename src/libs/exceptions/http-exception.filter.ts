@@ -1,9 +1,12 @@
-import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus } from '@nestjs/common';
+import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus, Inject } from '@nestjs/common';
 import colors from 'colors';
 import { Request, Response } from 'express';
+import { WINSTON_MODULE_PROVIDER, WinstonLogger } from 'nest-winston';
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
+    constructor(@Inject(WINSTON_MODULE_PROVIDER) private readonly logger: WinstonLogger) {}
+
     catch(exception: HttpException, host: ArgumentsHost) {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse<Response>();
@@ -15,6 +18,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
             statusCode = exception.getStatus();
             error = exception.getResponse();
         } else {
+            this.logger.log('error', `exception: ${exception}`);
             console.error(colors.red(`exception: ${exception}`));
             statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
             error = 'Internal server error';
@@ -26,9 +30,9 @@ export class HttpExceptionFilter implements ExceptionFilter {
             method: request.method,
             error: error || null,
         };
-        console.error(colors.red(`exception: ${exception}`));
+        this.logger.log('error', `exception: ${exception}`);
         console.log(errorResponse);
-        console.log(exception.stack);
+        this.logger.log('error', `Error.stack: ${exception.stack}`);
 
         response.status(statusCode).json(errorResponse);
     }

@@ -1,7 +1,12 @@
+import path from 'path';
+
 import { ClassProvider, MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import Joi from 'joi';
+import { WinstonModule, utilities as nestWinstonModuleUtilities } from 'nest-winston';
+import winston from 'winston';
+import DailyRotateFile from 'winston-daily-rotate-file';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -14,6 +19,7 @@ import { UserModule } from './src/user/user.module';
 
 const filters: ClassProvider[] = [{ provide: APP_FILTER, useClass: HttpExceptionFilter }];
 const interceptors: ClassProvider[] = [{ provide: APP_INTERCEPTOR, useClass: HttpResponseInterceptor }];
+
 const configOption = {
     envFilePath: [`config/.env.${process.env['NODE_ENV'] || 'local'}`],
     isGlobal: true,
@@ -28,8 +34,55 @@ const configOption = {
         REDIS_PORT: Joi.number(),
     }),
 };
+
 @Module({
-    imports: [ConfigModule.forRoot(configOption), DatabaseModule, UserModule, FileModule],
+    imports: [
+        ConfigModule.forRoot(configOption),
+        DatabaseModule,
+        UserModule,
+        FileModule,
+        WinstonModule.forRoot({
+            transports: [
+                new winston.transports.Console({
+                    format: winston.format.combine(
+                        winston.format.timestamp(), // timestamp를 찍을거고
+                        winston.format.ms(), // ms 단위로 찍을거야
+
+                        nestWinstonModuleUtilities.format.nestLike('PracticeApp', {
+                            colors: true,
+                            prettyPrint: true,
+                        })
+                    ),
+                }),
+                new DailyRotateFile({
+                    level: 'info',
+                    maxFiles: 7,
+                    maxSize: '10mb',
+                    filename: '%DATE%.log',
+                    datePattern: 'YYYY-MM-DD',
+                    zippedArchive: true,
+                    dirname: path.join(process.cwd(), './logs'),
+                    format: winston.format.combine(
+                        winston.format.timestamp({ format: 'YYYY-MM-DD hh:mm:ss' }),
+                        winston.format.printf((info) => `[${info['timestamp']}] ${info.level}: ${info.message}`)
+                    ),
+                }),
+                new DailyRotateFile({
+                    level: 'error',
+                    maxFiles: 7,
+                    maxSize: '10mb',
+                    zippedArchive: true,
+                    datePattern: 'YYYY-MM-DD',
+                    filename: `%DATE%.error.log`,
+                    dirname: path.join(process.cwd(), './logs/error'),
+                    format: winston.format.combine(
+                        winston.format.timestamp({ format: 'YYYY-MM-DD hh:mm:ss' }),
+                        winston.format.printf((info) => `[${info['timestamp']}] ${info.level}: ${info.message}`)
+                    ),
+                }),
+            ],
+        }),
+    ],
     controllers: [AppController],
     providers: [...filters, ...interceptors, AppService],
 })

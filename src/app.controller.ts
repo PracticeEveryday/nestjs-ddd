@@ -1,6 +1,16 @@
-import { BadRequestException, Controller, MaxFileSizeValidator, ParseFilePipe, Post, UploadedFile, UploadedFiles } from '@nestjs/common';
+import {
+    BadRequestException,
+    Controller,
+    Inject,
+    MaxFileSizeValidator,
+    ParseFilePipe,
+    Post,
+    UploadedFile,
+    UploadedFiles,
+} from '@nestjs/common';
 import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { string } from 'joi';
+import { WINSTON_MODULE_PROVIDER, WinstonLogger } from 'nest-winston';
 
 import { ApiAnyFileArray } from './libs/decorators/api-any-files.decorator';
 import { ApiFile } from './libs/decorators/api-file.decorator';
@@ -10,7 +20,7 @@ import { FileUtil } from './libs/module/file/file.module';
 @Controller()
 @ApiTags('Root API')
 export class AppController {
-    constructor(private readonly fileUtil: FileUtil) {}
+    constructor(private readonly fileUtil: FileUtil, @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: WinstonLogger) {}
 
     @Post('/upload')
     @ApiOperation({
@@ -31,6 +41,8 @@ export class AppController {
         )
         file: Express.Multer.File
     ) {
+        this.logger.log('info', 'uploadFile');
+
         if (!file) throw new BadRequestException('파일이 존재하지 않습니다.');
 
         return this.fileUtil.uploadFile(file);
@@ -47,13 +59,20 @@ export class AppController {
     })
     @ApiFileArray()
     public uploadFileArray(
-        @UploadedFiles()
+        @UploadedFiles(
+            new ParseFilePipe({
+                validators: [new MaxFileSizeValidator({ maxSize: 100 * 1024 * 1024 })],
+                fileIsRequired: false,
+            })
+        )
         file: {
             file1: Express.Multer.File[];
             file2: Express.Multer.File[];
             file3: Express.Multer.File[];
         }
     ) {
+        this.logger.log('info', 'uploadFileArray');
+
         const files: Express.Multer.File[] = [];
         if (file.file1) files.push(...file.file1);
         if (file.file2) files.push(...file.file2);
@@ -81,6 +100,8 @@ export class AppController {
         )
         files: Express.Multer.File[]
     ) {
+        this.logger.log('info', 'uploadAnyFile');
+
         return this.fileUtil.uploadAnyFileList(files);
     }
 }
