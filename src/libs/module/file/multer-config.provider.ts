@@ -32,6 +32,9 @@ export class MulterConfigProvider implements MulterOptionsFactory {
                     return cb(null, `${randomName}${extname(file.originalname)}`);
                 },
             }),
+            limits: {
+                fileSize: 100 * 1024 * 1024,
+            },
         };
     }
 }

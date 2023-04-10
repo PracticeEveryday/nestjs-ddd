@@ -1,13 +1,4 @@
-import {
-    BadRequestException,
-    Controller,
-    Inject,
-    MaxFileSizeValidator,
-    ParseFilePipe,
-    Post,
-    UploadedFile,
-    UploadedFiles,
-} from '@nestjs/common';
+import { BadRequestException, Controller, Inject, ParseFilePipe, Post, UploadedFile, UploadedFiles } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { WINSTON_MODULE_PROVIDER, WinstonLogger } from 'nest-winston';
 
@@ -17,7 +8,6 @@ import { ApiFileArray } from './libs/decorators/api-fileArray.decorator';
 import { FileUtil } from './libs/module/file/file.module';
 
 const filePipeOptions = new ParseFilePipe({
-    validators: [new MaxFileSizeValidator({ maxSize: 100 * 1024 * 1024 })],
     fileIsRequired: false,
 });
 
@@ -58,7 +48,7 @@ export class AppController {
         }
     ) {
         this.logger.log('info', 'uploadFileArray');
-
+        console.log(file, 'file');
         const files: Express.Multer.File[] = [];
         if (file.file1) files.push(...file.file1);
         if (file.file2) files.push(...file.file2);

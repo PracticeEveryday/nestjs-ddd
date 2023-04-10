@@ -1,13 +1,9 @@
-import path from 'path';
-
 import { BadRequestException, Injectable, Module } from '@nestjs/common';
 import { MulterModule } from '@nestjs/platform-express';
-import { v4 as uuidv4 } from 'uuid';
 
 import { MulterConfigProvider } from './multer-config.provider';
 
 type FileType = {
-    originalname: string;
     filename: string;
 };
 
@@ -19,12 +15,8 @@ export class FileUtil {
      * @returns 성공 메시지
      */
     public uploadFile(file: Express.Multer.File): FileType {
-        const 확장자 = file.mimetype.split('/')[1];
-        const 파일이름 = file.originalname.split('.')[0];
-
         const res: FileType = {
-            originalname: uuidv4() + path.extname(file.originalname),
-            filename: `${file.filename}_${파일이름}.${확장자}`,
+            filename: `${file.filename}`,
         };
 
         return res;
@@ -41,7 +33,7 @@ export class FileUtil {
             .filter((file) => file)
             .forEach((file) => {
                 const res: FileType = {
-                    originalname: uuidv4() + path.extname(file.originalname),
+                    // originalname: uuidv4() + path.extname(file.originalname),
                     filename: file.filename,
                 };
 
