@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { PasswordModule } from '🔥/libs/module/password/password.module';
+
 import { CreateUserCommand } from './application/commands/create-user/create-user.command';
 import { CreateUserHandler } from './application/commands/create-user/create-user.handler';
 import { UserDomainService } from './domain/user/inboundPorts/user.domain.service';
@@ -20,7 +22,7 @@ const queries = [FindUserByIdQuery, FindUserByIdHandler];
 const repositories = [UserDetailRepositoryImpl, UserRepositoryImpl];
 
 @Module({
-    imports: [CqrsModule, TypeOrmModule.forFeature([UserEntity, UserDetailEntity])],
+    imports: [CqrsModule, TypeOrmModule.forFeature([UserEntity, UserDetailEntity]), PasswordModule],
     controllers: [...httpController],
     providers: [...commands, ...queries, ...repositories, UserDomainService],
 })

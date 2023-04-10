@@ -3,6 +3,7 @@ import { AggregateRoot } from '@nestjs/cqrs';
 export type userRequiredProps = Required<{
     readonly email: string;
     readonly name: string;
+    readonly password: string;
 }>;
 
 export type userOptionalProps = Partial<{
@@ -23,6 +24,7 @@ export class UserDomain extends AggregateRoot implements User {
     private readonly userId: number;
     private email: string;
     private name: string;
+    private password: string;
     private address: string | null;
     private readonly createdAt: Date;
     private readonly updatedAt: Date;
@@ -38,6 +40,7 @@ export class UserDomain extends AggregateRoot implements User {
             userId: this.userId,
             email: this.email,
             name: this.name,
+            password: this.password,
             address: this.address,
             createdAt: this.createdAt,
             updatedAt: this.updatedAt,

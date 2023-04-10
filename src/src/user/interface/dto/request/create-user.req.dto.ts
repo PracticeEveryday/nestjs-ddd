@@ -7,7 +7,7 @@ import { UserEntity } from '🔥/src/user/infrastructure/entity/user.entity';
 
 import { UserBasicDto } from '../user-basic.dto';
 
-export class CreateUserReqDto extends PickType(UserBasicDto, ['email', 'name', 'address'] as const) {
+export class CreateUserReqDto extends PickType(UserBasicDto, ['email', 'name', 'password', 'address'] as const) {
     @ApiProperty({
         example: '자율전공학부',
         description: 'User major',

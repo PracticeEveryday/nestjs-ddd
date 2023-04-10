@@ -15,7 +15,7 @@ export class UserBasicDto {
     readonly email: string;
 
     @ApiProperty({
-        example: 'kim',
+        example: '12345678a',
         description: 'User name',
     })
     @Expose()
@@ -24,6 +24,17 @@ export class UserBasicDto {
     @MinLength(3)
     @MaxLength(60)
     readonly name: string;
+
+    @ApiProperty({
+        example: 'kim',
+        description: 'User name',
+    })
+    @Expose()
+    @IsString()
+    @IsNotEmpty()
+    @MinLength(3)
+    @MaxLength(60)
+    readonly password: string;
 
     @ApiProperty({
         example: '신림동 관악구',

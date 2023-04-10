@@ -19,6 +19,7 @@ export class UserRepositoryImpl implements UserRepositoryPort {
         const newUser = new UserEntity();
         newUser.email = createUserReqDto.email;
         newUser.name = createUserReqDto.name;
+        newUser.password = createUserReqDto.password;
 
         await createUserReqDto.queryRunnerManager.getRepository(UserEntity).save(newUser);
         return newUser;

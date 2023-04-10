@@ -21,7 +21,6 @@ export class UserController {
         private queryBus: QueryBus,
         @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: WinstonLogger
     ) {}
-    //@Inject(UserService) private readonly userService: UserSerivcePort
 
     @ApiOperation({ summary: '유저 생성 API' })
     @ApiResponse({

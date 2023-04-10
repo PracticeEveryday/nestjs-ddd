@@ -7,6 +7,7 @@ import { UserEntity } from '🔥/src/user/infrastructure/entity/user.entity';
 class Properties {
     readonly email: string;
     readonly name: string;
+    password: string;
     readonly address: string | null;
     readonly major: string;
     readonly birth: string | null;
