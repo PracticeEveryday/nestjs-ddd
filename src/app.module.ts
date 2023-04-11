@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { HttpExceptionFilter } from './libs/exceptions/http-exception.filter';
 import { HttpResponseInterceptor } from './libs/interceptors/http-response.interceptor';
 import { LoggerMiddleware } from './libs/middleware/logger.middleware';
+import { AuthModule } from './libs/module/auth/auth.module';
 import { CustomConfigModule } from './libs/module/config/config.module';
 import { DatabaseModule } from './libs/module/database/database.module';
 import { FileModule } from './libs/module/file/file.module';
@@ -16,7 +17,7 @@ const filters: ClassProvider[] = [{ provide: APP_FILTER, useClass: HttpException
 const interceptors: ClassProvider[] = [{ provide: APP_INTERCEPTOR, useClass: HttpResponseInterceptor }];
 
 @Module({
-    imports: [CustomConfigModule, DatabaseModule, UserModule, FileModule, CustomWinstonModule],
+    imports: [CustomConfigModule, DatabaseModule, UserModule, FileModule, CustomWinstonModule, AuthModule],
     controllers: [AppController],
     providers: [...filters, ...interceptors, AppService],
 })

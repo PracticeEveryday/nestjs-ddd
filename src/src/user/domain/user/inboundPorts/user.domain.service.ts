@@ -1,6 +1,7 @@
 import { BadRequestException, Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 
 import { returnValueToDto } from '🔥/libs/decorators/returnValueToDto.decorator';
+import { AuthService } from '🔥/libs/module/auth/auth.service';
 import { PasswordUtils } from '🔥/libs/module/password/password.module';
 import { UserDetailRepositoryImpl } from '🔥/src/user/infrastructure/repository/user-detail.repository';
 import { SignInReqDto } from '🔥/src/user/interface/dto/request/sign-in.req.dto';
@@ -17,7 +18,8 @@ export class UserDomainService implements UserSerivcePort {
     constructor(
         @Inject(UserRepositoryImpl) private readonly userRepository: UserRepositoryPort,
         @Inject(UserDetailRepositoryImpl) private readonly userDetailRepository: UserDetailRepositoryPort,
-        private readonly passwordUtils: PasswordUtils
+        private readonly passwordUtils: PasswordUtils,
+        private readonly authService: AuthService
     ) {}
 
     @returnValueToDto(CreateUserResDto)
@@ -40,7 +42,9 @@ export class UserDomainService implements UserSerivcePort {
         if (!user) throw new UnauthorizedException('해당 유저가 존재하지 않습니다.');
 
         const isPassword = await this.passwordUtils.comparePassword(signInReqDto.password, user.properties().password);
-        console.log(isPassword);
-        return user;
+        if (!isPassword) throw new UnauthorizedException('비밀번호가 일치하지 않습니다.');
+
+        const token = this.authService.signToken({ userId: user.properties().userId });
+        return { token };
     }
 }

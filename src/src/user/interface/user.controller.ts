@@ -56,7 +56,7 @@ export class UserController {
     @ApiOperation({ summary: '유저 로그인 API' })
     public async signIn(@Body() signInReqDto: SignInReqDto): Promise<CreateUserResDto> {
         this.logger.log('info', `signIn email: ${signInReqDto.email}`);
-        console.log(signInReqDto, 'signInReqDto');
+
         return await this.commandBus.execute(new SignInCommand(signInReqDto));
     }
 
