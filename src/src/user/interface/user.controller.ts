@@ -1,12 +1,12 @@
 import { Body, Controller, Get, HttpStatus, Inject, Param, Post, UseGuards, UseInterceptors } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { WINSTON_MODULE_PROVIDER, WinstonLogger } from 'nest-winston';
 import { EntityManager } from 'typeorm';
 
 import { ReqUser } from '🔥/libs/decorators/req-user.decorator';
 import { TransactionManager } from '🔥/libs/decorators/transaction.decorator';
+import { CustomAuthGuard } from '🔥/libs/guards/custom-auth.guard';
 import { TransactionInterceptor } from '🔥/libs/interceptors/transaction.interceptor';
 
 import { CreateUserReqDto } from './dto/request/create-user.req.dto';
@@ -29,7 +29,7 @@ export class UserController {
 
     @Get()
     @ApiBearerAuth()
-    @UseGuards(AuthGuard('jwt'))
+    @UseGuards(CustomAuthGuard)
     async getProfile(@ReqUser() user: User) {
         return user;
     }
