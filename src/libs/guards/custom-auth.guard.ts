@@ -3,8 +3,6 @@ import { AuthGuard } from '@nestjs/passport';
 
 import { AuthService } from '../module/auth/auth.service';
 
-// import { User } from '🔥/src/user/domain/user/user.domain';
-
 @Injectable()
 export class CustomAuthGuard extends AuthGuard(['jwt']) {
     constructor(private authService: AuthService) {
