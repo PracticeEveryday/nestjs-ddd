@@ -16,7 +16,7 @@ export class AuthService {
     public validateToken = (token: string) => {
         try {
             const verify = this.jwtService.verify(token, { secret: this.secretKey });
-            console.log(verify);
+
             return verify;
         } catch (error: unknown) {
             if (error instanceof JsonWebTokenError) {

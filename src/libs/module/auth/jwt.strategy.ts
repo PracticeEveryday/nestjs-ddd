@@ -23,7 +23,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         const { userId } = payload;
         const user = this.queryBus.execute(new FindUserByIdQuery({ userId }));
 
-        if (!user) throw new UnauthorizedException();
+        if (!user) throw new UnauthorizedException('해당 유저가 존재하지 않습니다.');
 
         return user;
     }

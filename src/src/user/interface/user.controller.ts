@@ -6,7 +6,6 @@ import { WINSTON_MODULE_PROVIDER, WinstonLogger } from 'nest-winston';
 import { EntityManager } from 'typeorm';
 
 import { TransactionManager } from '🔥/libs/decorators/transaction.decorator';
-// import { CustomAuthGuard } from '🔥/libs/guards/custom-auth.guard';
 import { TransactionInterceptor } from '🔥/libs/interceptors/transaction.interceptor';
 
 import { CreateUserReqDto } from './dto/request/create-user.req.dto';
