@@ -1,10 +1,11 @@
-import { Body, Controller, Get, HttpStatus, Inject, Param, Post, Req, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Inject, Param, Post, UseGuards, UseInterceptors } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { WINSTON_MODULE_PROVIDER, WinstonLogger } from 'nest-winston';
 import { EntityManager } from 'typeorm';
 
+import { ReqUser } from '🔥/libs/decorators/req-user.decorator';
 import { TransactionManager } from '🔥/libs/decorators/transaction.decorator';
 import { TransactionInterceptor } from '🔥/libs/interceptors/transaction.interceptor';
 
@@ -14,6 +15,7 @@ import { UserIdParamReqDto } from './dto/request/userId.param.req.dto';
 import { CreateUserResDto } from './dto/response/create-user.res.dto';
 import { CreateUserCommand } from '../application/commands/create-user/create-user.command';
 import { SignInCommand } from '../application/commands/sign-in/sign-in.command';
+import { User } from '../domain/user/user.domain';
 import { FindUserByIdQuery } from '../infrastructure/queries/FindUserByIdQuery';
 
 @ApiTags('User API')
@@ -28,9 +30,8 @@ export class UserController {
     @Get()
     @ApiBearerAuth()
     @UseGuards(AuthGuard('jwt'))
-    async getProfile(@Req() req: any) {
-        console.log(req.user, 'req.user');
-        return req.user;
+    async getProfile(@ReqUser() user: User) {
+        return user;
     }
 
     @ApiOperation({ summary: '유저 생성 API' })
