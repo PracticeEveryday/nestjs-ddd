@@ -1,10 +1,12 @@
-import { Body, Controller, HttpStatus, Inject, Param, Post, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Inject, Param, Post, Req, UseGuards, UseInterceptors } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { WINSTON_MODULE_PROVIDER, WinstonLogger } from 'nest-winston';
 import { EntityManager } from 'typeorm';
 
 import { TransactionManager } from '🔥/libs/decorators/transaction.decorator';
+// import { CustomAuthGuard } from '🔥/libs/guards/custom-auth.guard';
 import { TransactionInterceptor } from '🔥/libs/interceptors/transaction.interceptor';
 
 import { CreateUserReqDto } from './dto/request/create-user.req.dto';
@@ -23,6 +25,14 @@ export class UserController {
         private queryBus: QueryBus,
         @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: WinstonLogger
     ) {}
+
+    @Get()
+    @ApiBearerAuth()
+    @UseGuards(AuthGuard('jwt'))
+    async getProfile(@Req() req: any) {
+        console.log(req.user, 'req.user');
+        return req.user;
+    }
 
     @ApiOperation({ summary: '유저 생성 API' })
     @ApiResponse({
