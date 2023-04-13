@@ -15,11 +15,11 @@ export class MysqlConfigProvider implements TypeOrmOptionsFactory {
     private readonly database: string;
 
     constructor(private configService: ConfigService) {
-        this.host = configService.get<string>('DB_HOST') || '';
-        this.username = configService.get<string>('DB_USERNAME') || '';
-        this.password = configService.get<string>('DB_PASSWORD') || '';
-        this.database = configService.get<string>('DB_DATABASE') || '';
-        this.port = this.configService.get<number>('DB_PORT') || 3306;
+        this.host = configService.getOrThrow<string>('DB_HOST');
+        this.username = configService.getOrThrow<string>('DB_USERNAME');
+        this.password = configService.getOrThrow<string>('DB_PASSWORD');
+        this.database = configService.getOrThrow<string>('DB_DATABASE');
+        this.port = +this.configService.getOrThrow<number>('DB_PORT');
     }
 
     createTypeOrmOptions(): TypeOrmModuleOptions {

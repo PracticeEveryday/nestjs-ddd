@@ -6,7 +6,7 @@ import { JsonWebTokenError } from 'jsonwebtoken';
 export class AuthService {
     private secretKey: string;
     constructor(configService: ConfigService, private readonly jwtService: JwtService) {
-        this.secretKey = configService.get<string>('JWT_PRIVATE_KEY') || '';
+        this.secretKey = configService.getOrThrow<string>('JWT_PRIVATE_KEY');
     }
 
     public signToken(obj: { userId: number }) {

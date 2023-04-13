@@ -15,7 +15,7 @@ import { JwtStrategy } from './jwt.strategy';
             global: true,
             imports: [ConfigModule],
             useFactory: async (configService: ConfigService) => ({
-                privateKey: configService.get<string>('JWT_PRIVATE_KEY') || 'alkdfj',
+                privateKey: configService.getOrThrow<string>('JWT_PRIVATE_KEY'),
             }),
             inject: [ConfigService],
         }),
