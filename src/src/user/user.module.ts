@@ -1,4 +1,4 @@
-import { Module, forwardRef } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
@@ -27,7 +27,7 @@ const queries = [FindUserByIdQuery, FindUserByIdHandler];
 const repositories = [UserDetailRepositoryImpl, UserRepositoryImpl];
 
 @Module({
-    imports: [CqrsModule, TypeOrmModule.forFeature([UserEntity, UserDetailEntity]), PasswordModule, forwardRef(() => AuthModule)],
+    imports: [CqrsModule, TypeOrmModule.forFeature([UserEntity, UserDetailEntity]), PasswordModule, AuthModule],
     controllers: [...httpController],
     providers: [...commands, ...handlers, ...queries, ...repositories, UserDomainService],
     exports: [CqrsModule],
