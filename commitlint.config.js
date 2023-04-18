@@ -17,22 +17,10 @@ module.exports = {
     plugins: [
         {
             rules: {
-                'develop-rule': ({ subject }) => {
-                    const commitFolders = ['[frontend]', '[backend]', '[DH]'];
-                    return [
-                        commitFolders.some((folder) => subject?.startsWith(folder) !== subject?.endsWith(folder)),
-                        `\n${commitFolders
-                            .map((folder) => `${folder}\n`)
-                            .join('')}위 네 가지 중 한 가지는 반드시 콜론(:) 뒤에 포함되어야 합니다.
-[name] 뒤에 메시지 입력은 필수입니다.
-ex) feat: [backend] return 타입 수정
-                          `,
-                    ];
-                },
-                'type-enum': ({ subject }) => {
+                'type-enum': ({ type }) => {
                     const commitFolders = ['build', 'chore', 'ci', 'docs', 'feat', 'fix', 'refactor', 'revert', 'style', 'test'];
                     return [
-                        commitFolders.some((folder) => subject?.startsWith(folder) !== subject?.endsWith(folder)),
+                        commitFolders.some((folder) => type === folder),
                         `
 feat: 새로운 기능 추가에 대한 커밋
 build: 빌드 관련 파일 수정에 대한 커밋 
@@ -45,6 +33,18 @@ revert: 돌아가는 것
 style: ui 스타일에 관한 커밋
 test: 테스트 코드 리팩토링 테스트 코드 수정에 대한 커밋
 위 타입만 올 수 있습니다.`,
+                    ];
+                },
+                'develop-rule': ({ subject }) => {
+                    const commitFolders = ['[frontend]', '[backend]', '[DH]'];
+                    return [
+                        commitFolders.some((folder) => subject?.startsWith(folder) !== subject?.endsWith(folder)),
+                        `\n${commitFolders
+                            .map((folder) => `${folder}\n`)
+                            .join('')}위 네 가지 중 한 가지는 반드시 콜론(:) 뒤에 포함되어야 합니다.
+[name] 뒤에 메시지 입력은 필수입니다.
+ex) feat: [backend] return 타입 수정
+                          `,
                     ];
                 },
             },
