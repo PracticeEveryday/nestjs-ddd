@@ -7,6 +7,8 @@
     "license": "UNLICENSED",
     "scripts": {
         "build": "nest build",
+        "web": "yarn run deploy",
+        "deploy": "yarn add && yarn run build && yarn start:dev",
         "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
         "start": "nest start",
         "start:local": "cross-env NODE_ENV=local nest start --watch",
